@@ -35,15 +35,3 @@ html {
     height: 100%;
 }
 
-input {
-    border: 1px solid #cecfd2;
-    border-radius: 5px;
-}
-
-
-.container {
-    display: flex;
-    flex-direction: row;
-    max-width: 640px;
-    height: 100%;
-}
