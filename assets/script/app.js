@@ -66,7 +66,7 @@ fetch(
 
   // render a map
 
-    /**
+/**
  * Moves the map to display over lat lon
  *
  * @param  {H.Map} map      A HERE Map instance within the application
@@ -104,7 +104,18 @@ var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 // Create the default UI components
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
+var LocationOfMarker = { lat: 52.48, lng: -1.89 };
+// Create a marker icon from an image URL:
+var icon = new H.map.Icon('assets/images/mapmarker.png', { size: { w: 18, h: 24 } });
+
+// Create a marker using the previously instantiated icon:
+var marker = new H.map.Marker(LocationOfMarker, { icon: icon });
+
+// Add the marker to the map:
+map.addObject(marker);
+
 // Now use the map as required...
 window.onload = function () {
   moveMapToLocation(map);
 }
+
