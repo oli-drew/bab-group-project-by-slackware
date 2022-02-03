@@ -30,6 +30,9 @@ const getTravelAPI = async (lat, lon) => {
       return renderOutput(data);
     } else {
       console.log(`Error: ${response.statusText}`);
+      if (response.status === 429) {
+        userTAKey();
+      }
     }
   } catch (error) {
     console.log(`Unable to connect to Travel Advisor`);
