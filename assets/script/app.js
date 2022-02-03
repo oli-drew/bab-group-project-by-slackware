@@ -157,8 +157,11 @@ const userTAKey = () => {
 // Event listener to get the Travel Advisor key
 apiKeySaveBtn.addEventListener("click", function () {
   taAPIKey = apiKeyInput.value;
-  setTAKey(taAPIKey);
-  closeModal(apiKeyModal);
+  // Only set key if input not blank
+  if (taAPIKey) {
+    setTAKey(taAPIKey);
+    closeModal(apiKeyModal);
+  }
 });
 
 // Function to open a modal
