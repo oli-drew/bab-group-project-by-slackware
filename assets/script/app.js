@@ -30,6 +30,7 @@ const getTravelAPI = async (lat, lon) => {
       return renderOutput(data);
     } else {
       console.log(`Error: ${response.statusText}`);
+      // Ask for new key if too many requests made (429)
       if (response.status === 429) {
         userTAKey();
       }
