@@ -59,6 +59,7 @@ const renderOutput = (data) => {
 // map data fetch
 
 let townInput = "Birmingham";
+
 let mapData;
 fetch(
   `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
@@ -180,6 +181,27 @@ function closeModal($el) {
 
 // Get the Travel Advisor api key from local storage
 getTAKey();
+
+
+let restaurantsArray = [];
+function cuisineSelector() {
+  for (let i = 0; i < restaurants.length; i++) {
+    if (restaurants [i].name){
+  if (restaurants[i].cuisine[0].name === document.querySelector('#Italian').value) {
+      
+      restaurantsArray.push(restaurants[i]);
+    }
+  }
+}
+};
+
+function makeCuisineArray(){
+  let cuisineArray = []
+  for (let i = 0; i < restaurants[2].cuisine.length; i++){
+    cuisineArray.push(restaurants[2].cuisine[i].name)
+    console.log(cuisineArray)
+  }
+}
 
 function displayRestaurants(){
   for (let i= 0; i < restaurants.length; i++) {
