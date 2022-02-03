@@ -49,7 +49,7 @@ const renderOutput = (data) => {
 };
 
 // Run Travel Advisor function - Birmingham
-getTravelAPI(52.48142, -1.89983); // Commented out so we don't make so many requests
+// getTravelAPI(52.48142, -1.89983); // Commented out so we don't make so many requests
 
 // map data fetch
 
