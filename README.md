@@ -1,5 +1,7 @@
 # Birmingham Association Banquets
 
+![BAB Logo](./assets/images/bab-logo.png)
+
 ## Description
 
 Birmingham Association Banquets, is the new leading tool to plan one's evening. Utilising some of Birmingham's best healthy and vegan restaurants, we do the hard work to show you the locations and the route.
@@ -9,6 +11,7 @@ Birmingham Association Banquets, is the new leading tool to plan one's evening. 
 - HTML, CSS, and JavaScript
 - Bulma CSS Framework
 - Travel Advisor API
+- Here Geocoding API
 - Deployed to GitHub Pages
 
 ## Animated Screenshot
