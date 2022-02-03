@@ -10,12 +10,41 @@
     />
     <!-- <script src="https://kit.fontawesome.com/80833262c1.js"></script> -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-    <script type="text/javascript" src='../test-credentials.js'></script>    
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"
+    />
+    <script type="text/javascript" src="../test-credentials.js"></script>
+    <script
+      type="text/javascript"
+      src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital@1&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Birmingham Association Banquets</title>
   </head>
   <body>
@@ -74,7 +103,10 @@
             <article class="tile is-child box">
               <p class="title">Map</p>
               <div class="content">
-                <div style="width: 600px; height: 400px;" id="mapContainer"></div>
+                <div
+                  style="width: 600px; height: 400px"
+                  id="mapContainer"
+                ></div>
               </div>
             </article>
           </div>
@@ -82,9 +114,12 @@
       </section>
       <!-- restaurants cards - probably hidden until user searches -->
       <section class="container">
-        <div class="container columns is-justify-content-space-around">
+        <div
+          class="container columns is-justify-content-space-around is-multiline"
+          id="restaurant-container"
+        >
           <!-- We will want to generate these with JS -->
-          <div class="card column is-3 m-1">
+          <!-- <div class="card column is-3 m-1">
             <div class="card-image">
               <figure class="image is-4by3">
                 <img
@@ -199,8 +234,7 @@
                 </p>
               </footer>
             </div>
-          </div>
-
+          </div> -->
         </div>
       </section>
     </main>

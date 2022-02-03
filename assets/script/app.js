@@ -18,7 +18,7 @@ const getTravelAPI = async (lat, lon) => {
         headers: {
           "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
           "x-rapidapi-key":
-            "aecfde690amsh510c913a3f6a211p18e79fjsn70ac88404b3f",
+            "5c05ad4b2bmsh19dd262c07607e0p133f98jsn035997511143",
         },
       }
     );
@@ -43,7 +43,8 @@ const renderOutput = (data) => {
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
     // Do Stuff here
-  });
+
+});
 };
 
 // Run Travel Advisor function - Birmingham
@@ -117,5 +118,52 @@ map.addObject(marker);
 // Now use the map as required...
 window.onload = function () {
   moveMapToLocation(map);
+}
+
+
+function displayRestaurants(){
+  for (let i= 0; i < restaurants.length; i++) {
+    const restaurant = restaurants[i];
+    if (restaurant.name) {
+    console.log(`URL: ${restaurant.photo.images.small.url}`);
+$("#restaurant-container").append(
+  $(
+    `<div class="card column is-one-quarter m-1">
+    <div class="media-content">
+          <p id="card-name" class="title is-5">${restaurant.name}</p>
+        </div>
+    <div class="card-image">
+      <figure class="image is-4by3">
+      <img src="${restaurant.photo.images.small.url}">
+      </figure>
+    </div>
+    <div id="card-content" "class="card-content">
+      <div class="media">
+      </div>
+      <div class="content">
+        ${restaurant.description}
+      </div>
+      <div id="website" class="content">
+        ${restaurant.website}
+      </div>
+      <footer class="card-footer">
+      <ul id="footer">
+      <br>
+      <li>
+          ${restaurant.address}
+        </li> <br>
+        <li>
+          ${restaurant.phone}
+        </li> <br>
+        <li>
+          ${restaurant.email}
+        </li>
+        </ul>
+      </footer>
+    </div>
+  </div>`
+  ))
+    }
+  }
 }
 
