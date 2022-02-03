@@ -1,6 +1,9 @@
 // Strict mode syntax
 "use strict";
 
+// Travel advsior Api key
+let taAPIKey;
+
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
@@ -17,8 +20,7 @@ const getTravelAPI = async (lat, lon) => {
         method: "GET",
         headers: {
           "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
-          "x-rapidapi-key":
-            "aecfde690amsh510c913a3f6a211p18e79fjsn70ac88404b3f",
+          "x-rapidapi-key": taAPIKey,
         },
       }
     );
@@ -47,11 +49,11 @@ const renderOutput = (data) => {
 };
 
 // Run Travel Advisor function - Birmingham
-getTravelAPI(52.48142, -1.89983);
+getTravelAPI(52.48142, -1.89983); // Commented out so we don't make so many requests
 
 // map data fetch
 
-let townInput = 'Birmingham'
+let townInput = "Birmingham";
 let mapData;
 fetch(
   `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
@@ -63,16 +65,15 @@ fetch(
     mapData = data;
   });
 
-
-  // render a map
+// render a map
 
 /**
  * Moves the map to display over lat lon
  *
  * @param  {H.Map} map      A HERE Map instance within the application
  */
-function moveMapToLocation(map){
-  map.setCenter({lat:52.48, lng:-1.89});
+function moveMapToLocation(map) {
+  map.setCenter({ lat: 52.48, lng: -1.89 });
   map.setZoom(14);
 }
 
@@ -82,19 +83,22 @@ function moveMapToLocation(map){
 
 //Step 1: initialize communication with the platform
 var platform = new H.service.Platform({
-  apikey: 'CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M'
+  apikey: "CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M",
 });
 var defaultLayers = platform.createDefaultLayers();
 
 //Step 2: initialize a map - this map is centered over Europe
-var map = new H.Map(document.getElementById('mapContainer'),
-  defaultLayers.vector.normal.map,{
-  center: {lat:50, lng:5},
-  zoom: 4,
-  pixelRatio: window.devicePixelRatio || 1
-});
+var map = new H.Map(
+  document.getElementById("mapContainer"),
+  defaultLayers.vector.normal.map,
+  {
+    center: { lat: 50, lng: 5 },
+    zoom: 4,
+    pixelRatio: window.devicePixelRatio || 1,
+  }
+);
 // add a resize listener to make sure that the map occupies the whole container
-window.addEventListener('resize', () => map.getViewPort().resize());
+window.addEventListener("resize", () => map.getViewPort().resize());
 
 //Step 3: make the map interactive
 // MapEvents enables the event system
@@ -106,7 +110,9 @@ var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 var LocationOfMarker = { lat: 52.48, lng: -1.89 };
 // Create a marker icon from an image URL:
-var icon = new H.map.Icon('assets/images/mapmarker.png', { size: { w: 18, h: 24 } });
+var icon = new H.map.Icon("assets/images/mapmarker.png", {
+  size: { w: 18, h: 24 },
+});
 
 // Create a marker using the previously instantiated icon:
 var marker = new H.map.Marker(LocationOfMarker, { icon: icon });
@@ -117,5 +123,53 @@ map.addObject(marker);
 // Now use the map as required...
 window.onload = function () {
   moveMapToLocation(map);
+};
+
+// Travel Advisor api input elements
+const apiKeyModal = document.querySelector("#apiKeyModal");
+const apiKeyInput = document.querySelector("#apiKeyInput");
+const apiKeySaveBtn = document.querySelector("#apiKeySaveBtn");
+
+// Check for Traval Advisor API key in local storage.
+const getTAKey = () => {
+  const key = localStorage.getItem("TAKey");
+  // If not null
+  if (key) {
+    // Set the key to a variable
+    taAPIKey = key;
+    return key;
+  } else {
+    // Ask for key
+    openModal(apiKeyModal);
+  }
+};
+
+// Set Travel Advsior API key
+const setTAKey = (apiKey) => {
+  localStorage.setItem("TAKey", apiKey);
+};
+
+// Ask user to enter api key
+const userTAKey = () => {
+  openModal(apiKeyModal);
+};
+
+// Event listener to get the Travel Advisor key
+apiKeySaveBtn.addEventListener("click", function () {
+  taAPIKey = apiKeyInput.value;
+  setTAKey(taAPIKey);
+  closeModal(apiKeyModal);
+});
+
+// Function to open a modal
+function openModal($el) {
+  $el.classList.add("is-active");
 }
 
+// Function to close a modal
+function closeModal($el) {
+  $el.classList.remove("is-active");
+}
+
+// Get the Travel Advsior api key from local storage
+getTAKey();
