@@ -137,7 +137,6 @@ const getTAKey = () => {
   if (key) {
     // Set the key to a variable
     taAPIKey = key;
-    return key;
   } else {
     // Ask for key
     openModal(apiKeyModal);
