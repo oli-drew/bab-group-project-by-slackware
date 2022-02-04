@@ -105,8 +105,8 @@ fetch(
   .then(()=>{
     searchedLatitude = mapData.items[0].position.lat
     searchedLongitude = mapData.items[0].position.lng
-  })
-  .then(getTravelAPI(searchedLatitude, searchedLongitude))
+    getTravelAPI(searchedLatitude, searchedLongitude)
+  });
 }
 // render a map
 
