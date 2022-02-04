@@ -49,6 +49,7 @@ const renderOutput = (data) => {
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
     // Do Stuff here
+    addMarker(restaurant.name, restaurant.latitude, restaurant.longitude);
   });
 };
 
@@ -207,7 +208,6 @@ function displayRestaurants() {
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
-      console.log(`URL: ${restaurant.photo.images.small.url}`);
       $("#restaurant-container").append(
         $(
           `<div class="card column is-one-quarter m-1">
@@ -294,8 +294,8 @@ const map = new ol.Map({
     }),
   ],
   view: new ol.View({
-    center: ol.proj.fromLonLat([-1.961668, 52.459709]),
-    zoom: 15,
+    center: ol.proj.fromLonLat([-1.89983, 52.48142]),
+    zoom: 17,
   }),
 });
 

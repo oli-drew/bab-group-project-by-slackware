@@ -63,7 +63,8 @@ html {
 /* Map Styling */
 .map-container {
   height: 500px;
-  width: 500px;
+  /* width: 500px; */
+  width: 100%;
 }
 
 .map {
