@@ -295,9 +295,15 @@ const map = new ol.Map({
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([-1.89983, 52.48142]),
-    zoom: 17,
+    zoom: 16,
   }),
 });
+
+// Update map center point
+const updateMapCenter = (lat, lon) => {
+  map.getView().setCenter(ol.proj.fromLonLat([lon, lat]));
+  map.getView().setZoom(16);
+};
 
 // Function to create marker
 const addMarker = (place, lat, lon) => {
