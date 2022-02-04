@@ -11,7 +11,7 @@ const userCuisineOptions = [
   "Grill",
   "Pizza",
   "French",
-  "Burger",
+  "Burgers",
   "British",
   "Vegetarian",
   "Vegan",
@@ -65,7 +65,7 @@ const getTravelAPI = async (lat, lon) => {
     }
     
   } catch (error) {
-    console.log(`Unable to connect to Travel Advisor`);
+    console.log(error);
   }
 };
 
@@ -274,8 +274,7 @@ function displayRestaurants(restaurants) {
   $("#restaurant-container").empty()
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
-    if (restaurant.name) {
-      console.log(`URL: ${restaurant.photo.images.small.url}`);
+    if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
           `<div class="card column is-one-quarter m-1">
