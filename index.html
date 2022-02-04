@@ -7,9 +7,15 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-/>
+    />
     <!-- <script src="https://kit.fontawesome.com/80833262c1.js"></script> -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <!-- Openlayers Map -->
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/css/ol.css"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -30,7 +36,6 @@
     <script
       type="text/javascript"
       src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
-      
     ></script>
 
     <script
@@ -46,13 +51,12 @@
       rel="stylesheet"
     />
 
->>>>>>> main
+    <!-- >>>>>>> main -->
     <title>Birmingham Association Banquets</title>
   </head>
   <body>
     <header class="header">
-      <style>
-        </style>
+      <style></style>
       <h1>B.A.B</h1>
       <h6>Birmingham Association Banquets</h6>
     </header>
@@ -118,11 +122,20 @@
           <div class="tile is-parent is-8">
             <article class="tile is-child box">
               <p class="title">Map</p>
-              <div class="content">
+              <!-- <div class="content">
                 <div
                   style="width: 600px; height: 400px"
                   id="mapContainer"
                 ></div>
+              </div> -->
+              <div class="map-container">
+                <div id="map" class="map">
+                  <!-- <div id="popup"></div></div>
+                  <div id="map" class="map"></div> -->
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
               </div>
             </article>
           </div>
@@ -164,6 +177,6 @@
       </div>
     </div>
   </body>
- 
+
   <script src="assets/script/app.js"></script>
 </html>

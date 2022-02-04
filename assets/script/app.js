@@ -49,8 +49,7 @@ const renderOutput = (data) => {
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
     // Do Stuff here
-
-});
+  });
 };
 
 // Run Travel Advisor function - Birmingham
@@ -73,63 +72,63 @@ fetch(
 
 // render a map
 
-/**
- * Moves the map to display over lat lon
- *
- * @param  {H.Map} map      A HERE Map instance within the application
- */
-function moveMapToLocation(map) {
-  map.setCenter({ lat: 52.48, lng: -1.89 });
-  map.setZoom(14);
-}
+// /**
+//  * Moves the map to display over lat lon
+//  *
+//  * @param  {H.Map} map      A HERE Map instance within the application
+//  */
+// function moveMapToLocation(map) {
+//   map.setCenter({ lat: 52.48, lng: -1.89 });
+//   map.setZoom(14);
+// }
 
-/**
- * Boilerplate map initialization code starts below:
- */
+// /**
+//  * Boilerplate map initialization code starts below:
+//  */
 
-//Step 1: initialize communication with the platform
-var platform = new H.service.Platform({
-  apikey: "CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M",
-});
-var defaultLayers = platform.createDefaultLayers();
+// //Step 1: initialize communication with the platform
+// var platform = new H.service.Platform({
+//   apikey: "CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M",
+// });
+// var defaultLayers = platform.createDefaultLayers();
 
-//Step 2: initialize a map - this map is centered over Europe
-var map = new H.Map(
-  document.getElementById("mapContainer"),
-  defaultLayers.vector.normal.map,
-  {
-    center: { lat: 50, lng: 5 },
-    zoom: 4,
-    pixelRatio: window.devicePixelRatio || 1,
-  }
-);
-// add a resize listener to make sure that the map occupies the whole container
-window.addEventListener("resize", () => map.getViewPort().resize());
+// //Step 2: initialize a map - this map is centered over Europe
+// var map = new H.Map(
+//   document.getElementById("mapContainer"),
+//   defaultLayers.vector.normal.map,
+//   {
+//     center: { lat: 50, lng: 5 },
+//     zoom: 4,
+//     pixelRatio: window.devicePixelRatio || 1,
+//   }
+// );
+// // add a resize listener to make sure that the map occupies the whole container
+// window.addEventListener("resize", () => map.getViewPort().resize());
 
-//Step 3: make the map interactive
-// MapEvents enables the event system
-// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+// //Step 3: make the map interactive
+// // MapEvents enables the event system
+// // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+// var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-// Create the default UI components
-var ui = H.ui.UI.createDefault(map, defaultLayers);
+// // Create the default UI components
+// var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-var LocationOfMarker = { lat: 52.48, lng: -1.89 };
-// Create a marker icon from an image URL:
-var icon = new H.map.Icon("assets/images/mapmarker.png", {
-  size: { w: 18, h: 24 },
-});
+// var LocationOfMarker = { lat: 52.48, lng: -1.89 };
+// // Create a marker icon from an image URL:
+// var icon = new H.map.Icon("assets/images/mapmarker.png", {
+//   size: { w: 18, h: 24 },
+// });
 
-// Create a marker using the previously instantiated icon:
-var marker = new H.map.Marker(LocationOfMarker, { icon: icon });
+// // Create a marker using the previously instantiated icon:
+// var marker = new H.map.Marker(LocationOfMarker, { icon: icon });
 
-// Add the marker to the map:
-map.addObject(marker);
+// // Add the marker to the map:
+// map.addObject(marker);
 
-// Now use the map as required...
-window.onload = function () {
-  moveMapToLocation(map);
-};
+// // Now use the map as required...
+// window.onload = function () {
+//   moveMapToLocation(map);
+// };
 
 // Travel Advisor api input elements
 const apiKeyModal = document.querySelector("#apiKeyModal");
@@ -182,35 +181,36 @@ function closeModal($el) {
 // Get the Travel Advisor api key from local storage
 getTAKey();
 
-
 let restaurantsArray = [];
 function cuisineSelector() {
   for (let i = 0; i < restaurants.length; i++) {
-    if (restaurants [i].name){
-  if (restaurants[i].cuisine[0].name === document.querySelector('#Italian').value) {
-      
-      restaurantsArray.push(restaurants[i]);
+    if (restaurants[i].name) {
+      if (
+        restaurants[i].cuisine[0].name ===
+        document.querySelector("#Italian").value
+      ) {
+        restaurantsArray.push(restaurants[i]);
+      }
     }
   }
 }
-};
 
-function makeCuisineArray(){
-  let cuisineArray = []
-  for (let i = 0; i < restaurants[2].cuisine.length; i++){
-    cuisineArray.push(restaurants[2].cuisine[i].name)
-    console.log(cuisineArray)
+function makeCuisineArray() {
+  let cuisineArray = [];
+  for (let i = 0; i < restaurants[2].cuisine.length; i++) {
+    cuisineArray.push(restaurants[2].cuisine[i].name);
+    console.log(cuisineArray);
   }
 }
 
-function displayRestaurants(){
-  for (let i= 0; i < restaurants.length; i++) {
+function displayRestaurants() {
+  for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
-    console.log(`URL: ${restaurant.photo.images.small.url}`);
-$("#restaurant-container").append(
-  $(
-    `<div class="card column is-one-quarter m-1">
+      console.log(`URL: ${restaurant.photo.images.small.url}`);
+      $("#restaurant-container").append(
+        $(
+          `<div class="card column is-one-quarter m-1">
     <div class="media-content">
           <p id="card-name" class="title is-5">${restaurant.name}</p>
         </div>
@@ -244,8 +244,103 @@ $("#restaurant-container").append(
       </footer>
     </div>
   </div>`
-  ))
+        )
+      );
     }
   }
 }
 
+// Openlayers map
+// Array of lat lons
+const locations = [
+  { name: "Edgebaston", lat: 52.455982, lon: -1.904016 },
+  { name: "Selly Oak", lat: 52.443225, lon: -1.946521 },
+  { name: "Harborne", lat: 52.459709, lon: -1.961668 },
+];
+
+//
+const loopLocations = () => {
+  locations.forEach((location) => {
+    const name = location.name;
+    console.log(name);
+    const lat = location.lat;
+    const lon = location.lon;
+    addMarker(name, lat, lon);
+  });
+};
+
+const container = document.getElementById("popup");
+const content = document.getElementById("popup-content");
+const closer = document.getElementById("popup-closer");
+
+//
+const overlay = new ol.Overlay({
+  element: container,
+  autoPan: {
+    animation: {
+      duration: 250,
+    },
+  },
+});
+
+// Create map
+const map = new ol.Map({
+  //
+  overlays: [overlay],
+  target: "map",
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM(),
+    }),
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([-1.961668, 52.459709]),
+    zoom: 15,
+  }),
+});
+
+// Function to create marker
+const addMarker = (place, lat, lon) => {
+  const marker = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+    name: place,
+  });
+
+  const markers = new ol.source.Vector({
+    features: [marker],
+  });
+
+  const markerVectorLayer = new ol.layer.Vector({
+    source: markers,
+    style: new ol.style.Style({
+      image: new ol.style.Icon({
+        anchor: [0.5, 46],
+        anchorXUnits: "fraction",
+        anchorYUnits: "pixels",
+        src: "./assets/images/icon.png",
+      }),
+    }),
+  });
+  map.addLayer(markerVectorLayer);
+};
+
+// display popup on click
+map.on("click", function (evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    return feature;
+  });
+  if (feature) {
+    const coordinate = evt.coordinate;
+    const name = feature.get("name");
+    content.innerHTML = `<p>${name}</p>`;
+    overlay.setPosition(coordinate);
+  } else {
+    overlay.setPosition(undefined);
+  }
+});
+
+closer.onclick = function () {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
