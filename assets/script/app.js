@@ -75,7 +75,10 @@ let restaurants;
 const renderOutput = (data) => {
   restaurants = data.data;
   cuisineSelector()
-  displayRestaurants()
+  if (userCuisineChosesArray.length > 0){
+    displayRestaurants(restaurantsArray)
+  }
+  else {displayRestaurants(restaurants)}
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
@@ -267,7 +270,8 @@ $('#submitButton').click( e =>{
 
 // render restaurant cards
 
-function displayRestaurants() {
+function displayRestaurants(restaurants) {
+  $("#restaurant-container").empty()
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
