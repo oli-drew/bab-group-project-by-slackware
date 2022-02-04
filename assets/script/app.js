@@ -75,6 +75,7 @@ let restaurants;
 const renderOutput = (data) => {
   restaurants = data.data;
   cuisineSelector()
+  displayRestaurants()
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
