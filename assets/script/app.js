@@ -87,9 +87,12 @@ const renderOutput = (data) => {
 
 // map data fetch
 
-let townInput = "Birmingham";
-
+let townInput;
+let searchedLatitude;
+let searchedLongitude;
 let mapData;
+function getGeocode(){
+  townInput = $('#userLocationInput').val()
 fetch(
   `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
 )
@@ -98,8 +101,13 @@ fetch(
   })
   .then(function (data) {
     mapData = data;
-  });
-
+  })
+  .then(()=>{
+    searchedLatitude = mapData.items[0].position.lat
+    searchedLongitude = mapData.items[0].position.lng
+  })
+  .then(getTravelAPI(searchedLatitude, searchedLongitude))
+}
 // render a map
 
 /**
@@ -215,6 +223,7 @@ getTAKey();
 let restaurantsArray = [];
 let cuisineArray = [];
 function cuisineSelector() {
+  restaurantsArray = []
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
@@ -237,7 +246,6 @@ function inputToArray() {
 }
 //function checks through each restaurants cuisines to see if it meets the criteria
 function cuisineArrayChecker(restaurant, userChose) {
-  restaurantsArray = []
   for (let j = 0; j < restaurant.cuisine.length; j++) {
     cuisineArray.push(restaurant.cuisine[j].name);
   }
@@ -250,7 +258,7 @@ function cuisineArrayChecker(restaurant, userChose) {
 $('#submitButton').click( e =>{
   e.preventDefault()
   inputToArray()
-  getTravelAPI(52.48142, -1.89983)
+  getGeocode()
 })
 
 
