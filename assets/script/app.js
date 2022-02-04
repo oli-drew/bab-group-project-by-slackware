@@ -228,13 +228,16 @@ function cuisineSelector() {
 // takes user choses and put them into an array
 let userCuisineChosesArray = [];
 function inputToArray() {
+  userCuisineChosesArray = []
   const userCuisineChoses = $(".cuisine:checked");
   for (let i = 0; i < userCuisineChoses.length; i++) {
     userCuisineChosesArray.push(userCuisineChoses[i].value);
   }
+  console.log(userCuisineChosesArray)
 }
 //function checks through each restaurants cuisines to see if it meets the criteria
 function cuisineArrayChecker(restaurant, userChose) {
+  restaurantsArray = []
   for (let j = 0; j < restaurant.cuisine.length; j++) {
     cuisineArray.push(restaurant.cuisine[j].name);
   }
@@ -247,7 +250,7 @@ function cuisineArrayChecker(restaurant, userChose) {
 $('#submitButton').click( e =>{
   e.preventDefault()
   inputToArray()
-  getTravelAPI(52.48142, -1.89983) // need to wait for this before running cuisineSelector()
+  getTravelAPI(52.48142, -1.89983)
 })
 
 
