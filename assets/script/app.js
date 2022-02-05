@@ -13,8 +13,8 @@ const userCuisineOptions = [
   "French",
   "Burgers",
   "British",
-  "Vegetarian",
-  "Vegan",
+  "Vegetarian Friendly",
+  "Vegan Options",
 ];
 
 // render cuisine options to the page
@@ -35,7 +35,7 @@ let taAPIKey;
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
-  const limit = 10;
+  const limit = 100;
   const currency = "GBP";
   const distance = 2;
   const isOpen = false;
@@ -277,8 +277,8 @@ function displayRestaurants(restaurants) {
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-          `<div class="card column is-one-quarter m-1">
-      <div class="media-content">
+    `<div class="card column is-one-quarter m-1">
+      <div class="cardTitle">
         <p id="card-name" class="title is-5">${restaurant.name}</p>
       </div>
       <div class="card-image">

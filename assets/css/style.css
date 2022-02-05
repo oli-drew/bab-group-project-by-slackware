@@ -57,7 +57,11 @@ html {
     text-align: center;
 }
 
-
+.cardTitle{
+    position: relative;
+    top: 25px;
+    z-index: 1;
+}
 
 #website{
     text-align: center;
