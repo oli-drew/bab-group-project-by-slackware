@@ -285,7 +285,6 @@ const overlay = new ol.Overlay({
 
 // Create map
 const map = new ol.Map({
-  //
   overlays: [overlay],
   target: "map",
   layers: [
@@ -295,7 +294,7 @@ const map = new ol.Map({
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([-1.89983, 52.48142]),
-    zoom: 16,
+    zoom: 12,
   }),
 });
 
