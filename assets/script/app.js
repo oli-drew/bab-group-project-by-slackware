@@ -1,13 +1,41 @@
 // Strict mode syntax
 "use strict";
 
+// user cuisine options - to be shown in checkboxes
+
+const userCuisineOptions = [
+  "Italian",
+  "Thai",
+  "Indian",
+  "Chinese",
+  "Grill",
+  "Pizza",
+  "French",
+  "Burgers",
+  "British",
+  "Vegetarian",
+  "Vegan",
+];
+
+// render cuisine options to the page
+userCuisineOptions.forEach((cuisine) => {
+  $("#checkboxMenu").append(
+    $(
+      `<label class="checkbox">
+          <input class='cuisine' type="checkbox" value=${cuisine}>
+          ${cuisine}
+        </label>`
+    )
+  );
+});
+
 // Travel advsior Api key
 let taAPIKey;
 
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
-  const limit = 5;
+  const limit = 10;
   const currency = "GBP";
   const distance = 2;
   const isOpen = false;
@@ -35,8 +63,9 @@ const getTravelAPI = async (lat, lon) => {
         userTAKey();
       }
     }
+    
   } catch (error) {
-    console.log(`Unable to connect to Travel Advisor`);
+    console.log(error);
   }
 };
 
@@ -45,12 +74,16 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
+  cuisineSelector()
+  if (userCuisineChosesArray.length > 0){
+    displayRestaurants(restaurantsArray)
+  }
+  else {displayRestaurants(restaurants)}
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
     // Do Stuff here
-
-});
+  });
 };
 
 // Run Travel Advisor function - Birmingham
@@ -58,9 +91,12 @@ const renderOutput = (data) => {
 
 // map data fetch
 
-let townInput = "Birmingham";
-
+let townInput;
+let searchedLatitude;
+let searchedLongitude;
 let mapData;
+function getGeocode(){
+  townInput = $('#userLocationInput').val()
 fetch(
   `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
 )
@@ -69,8 +105,13 @@ fetch(
   })
   .then(function (data) {
     mapData = data;
+  })
+  .then(()=>{
+    searchedLatitude = mapData.items[0].position.lat
+    searchedLongitude = mapData.items[0].position.lng
+    getTravelAPI(searchedLatitude, searchedLongitude)
   });
-
+}
 // render a map
 
 /**
@@ -136,7 +177,7 @@ const apiKeyModal = document.querySelector("#apiKeyModal");
 const apiKeyInput = document.querySelector("#apiKeyInput");
 const apiKeySaveBtn = document.querySelector("#apiKeySaveBtn");
 
-// Check for Traval Advisor API key in local storage.
+// Check for Travel Advisor API key in local storage.
 const getTAKey = () => {
   const key = localStorage.getItem("TAKey");
   // If not null
@@ -182,70 +223,96 @@ function closeModal($el) {
 // Get the Travel Advisor api key from local storage
 getTAKey();
 
-
+// function for narrowing down search based on user input
 let restaurantsArray = [];
+let cuisineArray = [];
 function cuisineSelector() {
+  restaurantsArray = []
   for (let i = 0; i < restaurants.length; i++) {
-    if (restaurants [i].name){
-  if (restaurants[i].cuisine[0].name === document.querySelector('#Italian').value) {
-      
-      restaurantsArray.push(restaurants[i]);
-    }
-  }
-}
-};
-
-function makeCuisineArray(){
-  let cuisineArray = []
-  for (let i = 0; i < restaurants[2].cuisine.length; i++){
-    cuisineArray.push(restaurants[2].cuisine[i].name)
-    console.log(cuisineArray)
-  }
-}
-
-function displayRestaurants(){
-  for (let i= 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
-    console.log(`URL: ${restaurant.photo.images.small.url}`);
-$("#restaurant-container").append(
-  $(
-    `<div class="card column is-one-quarter m-1">
-    <div class="media-content">
-          <p id="card-name" class="title is-5">${restaurant.name}</p>
-        </div>
-    <div class="card-image">
-      <figure class="image is-4by3">
-      <img src="${restaurant.photo.images.small.url}">
-      </figure>
-    </div>
-    <div id="card-content" "class="card-content">
-      <div class="media">
-      </div>
-      <div class="content">
-        ${restaurant.description}
-      </div>
-      <div id="website" class="content">
-        ${restaurant.website}
-      </div>
-      <footer class="card-footer">
-      <ul id="footer">
-      <br>
-      <li>
-          ${restaurant.address}
-        </li> <br>
-        <li>
-          ${restaurant.phone}
-        </li> <br>
-        <li>
-          ${restaurant.email}
-        </li>
-        </ul>
-      </footer>
-    </div>
-  </div>`
-  ))
+      cuisineArray = [];
+      userCuisineChosesArray.forEach((userChose) => {
+        cuisineArrayChecker(restaurant, userChose);
+      });
     }
   }
 }
+// takes user choses and put them into an array
+let userCuisineChosesArray = [];
+function inputToArray() {
+  userCuisineChosesArray = []
+  const userCuisineChoses = $(".cuisine:checked");
+  for (let i = 0; i < userCuisineChoses.length; i++) {
+    userCuisineChosesArray.push(userCuisineChoses[i].value);
+  }
+  console.log(userCuisineChosesArray)
+}
+//function checks through each restaurants cuisines to see if it meets the criteria
+function cuisineArrayChecker(restaurant, userChose) {
+  for (let j = 0; j < restaurant.cuisine.length; j++) {
+    cuisineArray.push(restaurant.cuisine[j].name);
+  }
+  if (cuisineArray.indexOf(userChose) === -1) {
+    return;
+  } else {restaurantsArray.push(restaurant)}
+  console.log(restaurantsArray);
+}
+// event listener on submit search button
+$('#submitButton').click( e =>{
+  e.preventDefault()
+  inputToArray()
+  getGeocode()
+})
 
+
+
+
+// render restaurant cards
+
+function displayRestaurants(restaurants) {
+  $("#restaurant-container").empty()
+  for (let i = 0; i < restaurants.length; i++) {
+    const restaurant = restaurants[i];
+    if (restaurant.name && restaurant.photo) {
+      $("#restaurant-container").append(
+        $(
+          `<div class="card column is-one-quarter m-1">
+      <div class="media-content">
+        <p id="card-name" class="title is-5">${restaurant.name}</p>
+      </div>
+      <div class="card-image">
+        <figure class="image is-4by3">
+          <img src="${restaurant.photo.images.small.url}">
+        </figure>
+      </div>
+      <div id="card-content" "class="card-content">
+        <div class="content">
+          ${restaurant.description}
+        </div>
+        <div id="website" class="content">
+          ${restaurant.website}
+        </div>
+        <footer class="card-footer">
+          <ul id="footer">
+            <br>
+            <li>
+              ${restaurant.address}
+            </li>
+            <br>
+            <li>
+              ${restaurant.phone}
+            </li>
+            <br>
+            <li>
+              ${restaurant.email}
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </div>`
+        )
+      );
+    }
+  }
+}
