@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Openlayers Map -->
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/css/ol.css"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
@@ -39,7 +45,10 @@
     ></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital@1&display=swap"
       rel="stylesheet"
@@ -96,14 +105,15 @@
         <!-- map container -->
         <div class="tile is-parent is-8 is-justify-content-space-around">
           <div class="tile is-parent is-8">
-            <article class="tile is-child box">
-              <div class="content">
-                <div
-                  style="width: 600px; height: 400px"
-                  id="mapContainer"
-                ></div>
+            <div class="tile is-child box">
+              <div class="map-container">
+                <div id="map" class="map">
+                <div id="popup" class="ol-popup">
+                  <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                  <div id="popup-content"></div>
+                </div>
               </div>
-            </article>
+            </div>
           </div>
         </div>
       </section>
