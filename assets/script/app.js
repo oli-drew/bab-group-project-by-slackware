@@ -83,7 +83,12 @@ const renderOutput = (data) => {
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
     // Add Restaurant locations to map
-    addMarker(restaurant.name, restaurant.latitude, restaurant.longitude);
+    addMarker(
+      restaurant.name,
+      restaurant.latitude,
+      restaurant.longitude,
+      restaurant.website
+    );
   });
 };
 
@@ -286,7 +291,7 @@ function checkForUndefined(restaurantInfo) {
   } else return restaurantInfo;
 }
 
-// Openlayers map
+// Map elements
 const container = document.getElementById("popup");
 const content = document.getElementById("popup-content");
 const closer = document.getElementById("popup-closer");
@@ -324,10 +329,11 @@ const updateMapCenter = (lat, lon, zoom = 15) => {
 };
 
 // Function to create marker
-const addMarker = (place, lat, lon) => {
+const addMarker = (place, lat, lon, website) => {
   const marker = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
     name: place,
+    website: website,
   });
 
   const markers = new ol.source.Vector({
@@ -348,7 +354,7 @@ const addMarker = (place, lat, lon) => {
   map.addLayer(markerVectorLayer);
 };
 
-// display popup on click
+// Display popup on icon click
 map.on("click", function (evt) {
   const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
     return feature;
@@ -356,13 +362,15 @@ map.on("click", function (evt) {
   if (feature) {
     const coordinate = evt.coordinate;
     const name = feature.get("name");
-    content.innerHTML = `<p>${name}</p>`;
+    const website = feature.get("website");
+    content.innerHTML = `<p>${name}</p><p>${website}</p>`;
     overlay.setPosition(coordinate);
   } else {
     overlay.setPosition(undefined);
   }
 });
 
+// Close popup on map
 closer.onclick = function () {
   overlay.setPosition(undefined);
   closer.blur();
