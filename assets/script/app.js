@@ -13,8 +13,8 @@ const userCuisineOptions = [
   "French",
   "Burgers",
   "British",
-  "Vegetarian",
-  "Vegan",
+  "Vegetarian-Friendly",
+  "Vegan-Options",
 ];
 
 // render cuisine options to the page
@@ -23,7 +23,7 @@ userCuisineOptions.forEach((cuisine) => {
     $(
       `<label class="checkbox">
           <input class='cuisine' type="checkbox" value=${cuisine}>
-          ${cuisine}
+          ${cuisine.split('-').join(' ')}
         </label>`
     )
   );
@@ -262,7 +262,7 @@ function inputToArray() {
   userCuisineChosesArray = [];
   const userCuisineChoses = $(".cuisine:checked");
   for (let i = 0; i < userCuisineChoses.length; i++) {
-    userCuisineChosesArray.push(userCuisineChoses[i].value);
+    userCuisineChosesArray.push(userCuisineChoses[i].value.split('-').join(' '));
   }
   console.log(userCuisineChosesArray);
 }
@@ -286,7 +286,6 @@ $("#submitButton").click((e) => {
 });
 
 // render restaurant cards
-
 function displayRestaurants(restaurants) {
   $("#restaurant-container").empty();
   for (let i = 0; i < restaurants.length; i++) {
@@ -294,35 +293,36 @@ function displayRestaurants(restaurants) {
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-          `<div class="card column is-one-quarter m-1">
-      <div class="media-content">
+          `<div class="card column is-5 m-1">
+      <div class="cardTitle">
         <p id="card-name" class="title is-5">${restaurant.name}</p>
       </div>
       <div class="card-image">
         <figure class="image is-4by3">
-          <img src="${restaurant.photo.images.small.url}">
+          <img src="${restaurant.photo.images.medium.url}">
         </figure>
       </div>
       <div id="card-content" "class="card-content">
         <div class="content">
-          ${restaurant.description}
+          <details>
+            <summary class="restaurantDescription">Description</summary>
+            <p>${checkForUndefined(restaurant.description)}</p>
+          </details>
         </div>
         <div id="website" class="content">
-          ${restaurant.website}
+          <a href=${checkForUndefined(restaurant.website)} target='_blank'>Visit Website</a>
         </div>
         <footer class="card-footer">
           <ul id="footer">
-            <br>
             <li>
-              ${restaurant.address}
+              Address:<br>
+              ${checkForUndefined(restaurant.address)}
             </li>
-            <br>
             <li>
-              ${restaurant.phone}
+              Phone:${checkForUndefined(restaurant.phone)}
             </li>
-            <br>
             <li>
-              ${restaurant.email}
+              <a href=mailto:${checkForUndefined(restaurant.email)}>Email Restaurant</a>
             </li>
           </ul>
         </footer>
@@ -332,4 +332,12 @@ function displayRestaurants(restaurants) {
       );
     }
   }
+}
+
+// check for missing data and return generic message
+function checkForUndefined(restaurantInfo){
+  if (restaurantInfo === undefined){
+    return "Not available"
+  }
+  else return restaurantInfo
 }
