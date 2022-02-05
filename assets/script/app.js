@@ -23,7 +23,7 @@ userCuisineOptions.forEach((cuisine) => {
     $(
       `<label class="checkbox">
           <input class='cuisine' type="checkbox" value=${cuisine}>
-          ${cuisine.split('-').join(' ')}
+          ${cuisine.split("-").join(" ")}
         </label>`
     )
   );
@@ -82,15 +82,17 @@ const renderOutput = (data) => {
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
-    // Do Stuff here
+    // Add Restaurant locations to map
+    addMarker(
+      restaurant.name,
+      restaurant.latitude,
+      restaurant.longitude,
+      restaurant.website
+    );
   });
 };
 
-// Run Travel Advisor function - Birmingham
-// getTravelAPI(52.48142, -1.89983); // Commented out so we don't make so many requests
-
 // map data fetch
-
 let townInput;
 let searchedLatitude;
 let searchedLongitude;
@@ -110,6 +112,8 @@ function getGeocode() {
       searchedLatitude = mapData.items[0].position.lat;
       searchedLongitude = mapData.items[0].position.lng;
       getTravelAPI(searchedLatitude, searchedLongitude);
+      // Center map
+      updateMapCenter(searchedLatitude, searchedLongitude, 16);
     })
     .catch((error) => {
       console.log(`Error: ${error}`);
@@ -129,66 +133,6 @@ const invalidSearchBtn = document.querySelector("#invalidSearchBtn");
 invalidSearchBtn.addEventListener("click", function () {
   closeModal(invalidSearchModal);
 });
-
-// render a map
-
-/**
- * Moves the map to display over lat lon
- *
- * @param  {H.Map} map      A HERE Map instance within the application
- */
-function moveMapToLocation(map) {
-  map.setCenter({ lat: 52.48, lng: -1.89 });
-  map.setZoom(14);
-}
-
-/**
- * Boilerplate map initialization code starts below:
- */
-
-//Step 1: initialize communication with the platform
-var platform = new H.service.Platform({
-  apikey: "CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M",
-});
-var defaultLayers = platform.createDefaultLayers();
-
-//Step 2: initialize a map - this map is centered over Europe
-var map = new H.Map(
-  document.getElementById("mapContainer"),
-  defaultLayers.vector.normal.map,
-  {
-    center: { lat: 50, lng: 5 },
-    zoom: 4,
-    pixelRatio: window.devicePixelRatio || 1,
-  }
-);
-// add a resize listener to make sure that the map occupies the whole container
-window.addEventListener("resize", () => map.getViewPort().resize());
-
-//Step 3: make the map interactive
-// MapEvents enables the event system
-// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-// Create the default UI components
-var ui = H.ui.UI.createDefault(map, defaultLayers);
-
-var LocationOfMarker = { lat: 52.48, lng: -1.89 };
-// Create a marker icon from an image URL:
-var icon = new H.map.Icon("assets/images/mapmarker.png", {
-  size: { w: 18, h: 24 },
-});
-
-// Create a marker using the previously instantiated icon:
-var marker = new H.map.Marker(LocationOfMarker, { icon: icon });
-
-// Add the marker to the map:
-map.addObject(marker);
-
-// Now use the map as required...
-window.onload = function () {
-  moveMapToLocation(map);
-};
 
 // Travel Advisor api input elements
 const apiKeyModal = document.querySelector("#apiKeyModal");
@@ -262,7 +206,9 @@ function inputToArray() {
   userCuisineChosesArray = [];
   const userCuisineChoses = $(".cuisine:checked");
   for (let i = 0; i < userCuisineChoses.length; i++) {
-    userCuisineChosesArray.push(userCuisineChoses[i].value.split('-').join(' '));
+    userCuisineChosesArray.push(
+      userCuisineChoses[i].value.split("-").join(" ")
+    );
   }
   console.log(userCuisineChosesArray);
 }
@@ -310,7 +256,9 @@ function displayRestaurants(restaurants) {
           </details>
         </div>
         <div id="website" class="content">
-          <a href=${checkForUndefined(restaurant.website)} target='_blank'>Visit Website</a>
+          <a href=${checkForUndefined(
+            restaurant.website
+          )} target='_blank'>Visit Website</a>
         </div>
         <footer class="card-footer">
           <ul id="footer">
@@ -322,7 +270,9 @@ function displayRestaurants(restaurants) {
               Phone: ${checkForUndefined(restaurant.phone)}
             </li>
             <li>
-              <a href=mailto:${checkForUndefined(restaurant.email)}>Email Restaurant</a>
+              <a href=mailto:${checkForUndefined(
+                restaurant.email
+              )}>Email Restaurant</a>
             </li>
           </ul>
         </footer>
@@ -335,9 +285,94 @@ function displayRestaurants(restaurants) {
 }
 
 // check for missing data and return generic message
-function checkForUndefined(restaurantInfo){
-  if (restaurantInfo === undefined){
-    return "Not available"
-  }
-  else return restaurantInfo
+function checkForUndefined(restaurantInfo) {
+  if (restaurantInfo === undefined) {
+    return "Not available";
+  } else return restaurantInfo;
 }
+
+// Map elements
+const container = document.getElementById("popup");
+const content = document.getElementById("popup-content");
+const closer = document.getElementById("popup-closer");
+
+// Overlay for map markers
+const overlay = new ol.Overlay({
+  element: container,
+  autoPan: {
+    animation: {
+      duration: 250,
+    },
+  },
+});
+
+// Create map
+const map = new ol.Map({
+  overlays: [overlay],
+  target: "map",
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM(),
+    }),
+  ],
+  view: new ol.View({
+    // Map starts centered on Birmingham
+    center: ol.proj.fromLonLat([-1.89983, 52.48142]),
+    zoom: 12,
+  }),
+});
+
+// Update map center point
+const updateMapCenter = (lat, lon, zoom = 15) => {
+  map.getView().setCenter(ol.proj.fromLonLat([lon, lat]));
+  map.getView().setZoom(zoom);
+};
+
+// Function to create marker
+const addMarker = (place, lat, lon, website) => {
+  const marker = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+    name: place,
+    website: website,
+  });
+
+  const markers = new ol.source.Vector({
+    features: [marker],
+  });
+
+  const markerVectorLayer = new ol.layer.Vector({
+    source: markers,
+    style: new ol.style.Style({
+      image: new ol.style.Icon({
+        anchor: [0.5, 46],
+        anchorXUnits: "fraction",
+        anchorYUnits: "pixels",
+        src: "./assets/images/icon.png",
+      }),
+    }),
+  });
+  map.addLayer(markerVectorLayer);
+};
+
+// Display popup on icon click
+map.on("click", function (evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    return feature;
+  });
+  if (feature) {
+    const coordinate = evt.coordinate;
+    const name = feature.get("name");
+    const website = feature.get("website");
+    content.innerHTML = `<p>${name}</p><p>${website}</p>`;
+    overlay.setPosition(coordinate);
+  } else {
+    overlay.setPosition(undefined);
+  }
+});
+
+// Close popup on map
+closer.onclick = function () {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};

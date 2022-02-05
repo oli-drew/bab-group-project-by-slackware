@@ -1,83 +1,93 @@
-* 
-{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
 body {
-    height: 100%;
-    margin: 0;
-    color: #b4b4b4;
+  height: 100%;
+  margin: 0;
+  color: #b4b4b4;
 }
 
 header {
-    width: 100%;
-    color: #44433c;
-    margin-top: 0;
-    font-size: xx-large;
-    background-color: #ffffff80;
-    box-shadow: 0px 0px 10px rgb(207, 207, 207);
+  width: 100%;
+  color: #44433c;
+  margin-top: 0;
+  font-size: xx-large;
+  background-color: #ffffff80;
+  box-shadow: 0px 0px 10px rgb(207, 207, 207);
 }
-
 
 header h1 {
     margin: 0;
     padding-top: 2px;
     font-family: 'Parisienne', cursive;
     font-weight: bolder !important;
-
 }
 
 
 html {
-    height: 100%;
+  height: 100%;
 }
 
-#checkboxMenu{
-    display: flex;
-    flex-direction: column;
+#checkboxMenu {
+  display: flex;
+  flex-direction: column;
 }
 
-#card-name{
-    border: solid black;
-    display: inline-block;
-    position: relative;
-    text-align: center;
-    background-color: #083011;
-    color: white;
-    border: 2.5px solid black;
-    border-radius: 0.8rem;
-    padding: 10px;
-    font-family: 'Old Standard TT', serif;;
+#card-name {
+  border: solid black;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  background-color: #083011;
+  color: white;
+  border: 2.5px solid black;
+  border-radius: 0.8rem;
+  padding: 10px;
+  font-family: "Old Standard TT", serif;
 }
 
-#footer{
-    text-align: center;
-    line-height: 1.8;
+#footer {
+  text-align: center;
+  line-height: 1.8;
 }
 
-#card-content{
-    text-align: center;
+#card-content {
+  text-align: center;
 }
 
-.cardTitle{
-    position: relative;
-    top: 25px;
-    z-index: 1;
+.cardTitle {
+  position: relative;
+  top: 25px;
+  z-index: 1;
 }
 
-#website{
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;;
+#website {
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.restaurantDescription{
-    cursor: pointer;
+.restaurantDescription {
+  cursor: pointer;
 }
 
-.card-footer{
-    justify-content: center;
+.card-footer {
+  justify-content: center;
 }
+
+/* Map Styling */
+.map-container {
+  height: 500px;
+  /* width: 500px; */
+  width: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
 
 form {
     position: fixed;
@@ -94,3 +104,55 @@ form {
 #restaurantCardSection{
     margin-left: 160px;
 }
+
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+}
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+.ol-control button {
+  background-color: #083011 !important;
+}
+
+.ol-attribution {
+  visibility: hidden !important;
+}
+
