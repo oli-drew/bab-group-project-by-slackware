@@ -68,3 +68,11 @@ html {
     overflow: hidden;
     text-overflow: ellipsis;;
 }
+
+.restaurantDescription{
+    cursor: pointer;
+}
+
+.card-footer{
+    justify-content: center;
+}

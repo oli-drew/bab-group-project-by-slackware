@@ -13,8 +13,8 @@ const userCuisineOptions = [
   "French",
   "Burgers",
   "British",
-  "Vegetarian Friendly",
-  "Vegan Options",
+  "Vegetarian-Friendly",
+  "Vegan-Options",
 ];
 
 // render cuisine options to the page
@@ -23,7 +23,7 @@ userCuisineOptions.forEach((cuisine) => {
     $(
       `<label class="checkbox">
           <input class='cuisine' type="checkbox" value=${cuisine}>
-          ${cuisine}
+          ${cuisine.split('-').join(' ')}
         </label>`
     )
   );
@@ -35,7 +35,7 @@ let taAPIKey;
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
-  const limit = 100;
+  const limit = 10;
   const currency = "GBP";
   const distance = 2;
   const isOpen = false;
@@ -63,7 +63,6 @@ const getTravelAPI = async (lat, lon) => {
         userTAKey();
       }
     }
-    
   } catch (error) {
     console.log(error);
   }
@@ -74,11 +73,12 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
-  cuisineSelector()
-  if (userCuisineChosesArray.length > 0){
-    displayRestaurants(restaurantsArray)
+  cuisineSelector();
+  if (userCuisineChosesArray.length > 0) {
+    displayRestaurants(restaurantsArray);
+  } else {
+    displayRestaurants(restaurants);
   }
-  else {displayRestaurants(restaurants)}
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
@@ -95,22 +95,22 @@ let townInput;
 let searchedLatitude;
 let searchedLongitude;
 let mapData;
-function getGeocode(){
-  townInput = $('#userLocationInput').val()
-fetch(
-  `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
-)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    mapData = data;
-  })
-  .then(()=>{
-    searchedLatitude = mapData.items[0].position.lat
-    searchedLongitude = mapData.items[0].position.lng
-    getTravelAPI(searchedLatitude, searchedLongitude)
-  });
+function getGeocode() {
+  townInput = $("#userLocationInput").val();
+  fetch(
+    `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      mapData = data;
+    })
+    .then(() => {
+      searchedLatitude = mapData.items[0].position.lat;
+      searchedLongitude = mapData.items[0].position.lng;
+      getTravelAPI(searchedLatitude, searchedLongitude);
+    });
 }
 // render a map
 
@@ -227,7 +227,7 @@ getTAKey();
 let restaurantsArray = [];
 let cuisineArray = [];
 function cuisineSelector() {
-  restaurantsArray = []
+  restaurantsArray = [];
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
@@ -241,12 +241,12 @@ function cuisineSelector() {
 // takes user choses and put them into an array
 let userCuisineChosesArray = [];
 function inputToArray() {
-  userCuisineChosesArray = []
+  userCuisineChosesArray = [];
   const userCuisineChoses = $(".cuisine:checked");
   for (let i = 0; i < userCuisineChoses.length; i++) {
-    userCuisineChosesArray.push(userCuisineChoses[i].value);
+    userCuisineChosesArray.push(userCuisineChoses[i].value.split('-').join(' '));
   }
-  console.log(userCuisineChosesArray)
+  console.log(userCuisineChosesArray);
 }
 //function checks through each restaurants cuisines to see if it meets the criteria
 function cuisineArrayChecker(restaurant, userChose) {
@@ -255,57 +255,56 @@ function cuisineArrayChecker(restaurant, userChose) {
   }
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
-  } else {restaurantsArray.push(restaurant)}
+  } else {
+    restaurantsArray.push(restaurant);
+  }
   console.log(restaurantsArray);
 }
 // event listener on submit search button
-$('#submitButton').click( e =>{
-  e.preventDefault()
-  inputToArray()
-  getGeocode()
-})
-
-
-
+$("#submitButton").click((e) => {
+  e.preventDefault();
+  inputToArray();
+  getGeocode();
+});
 
 // render restaurant cards
-
 function displayRestaurants(restaurants) {
-  $("#restaurant-container").empty()
+  $("#restaurant-container").empty();
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-    `<div class="card column is-one-quarter m-1">
+          `<div class="card column is-5 m-1">
       <div class="cardTitle">
         <p id="card-name" class="title is-5">${restaurant.name}</p>
       </div>
       <div class="card-image">
         <figure class="image is-4by3">
-          <img src="${restaurant.photo.images.small.url}">
+          <img src="${restaurant.photo.images.medium.url}">
         </figure>
       </div>
       <div id="card-content" "class="card-content">
         <div class="content">
-          ${restaurant.description}
+          <details>
+            <summary class="restaurantDescription">Description</summary>
+            <p>${checkForUndefined(restaurant.description)}</p>
+          </details>
         </div>
         <div id="website" class="content">
-          ${restaurant.website}
+          <a href=${checkForUndefined(restaurant.website)} target='_blank'>Visit Website</a>
         </div>
         <footer class="card-footer">
           <ul id="footer">
-            <br>
             <li>
-              ${restaurant.address}
+              Address:<br>
+              ${checkForUndefined(restaurant.address)}
             </li>
-            <br>
             <li>
-              ${restaurant.phone}
+              Phone:${checkForUndefined(restaurant.phone)}
             </li>
-            <br>
             <li>
-              ${restaurant.email}
+              <a href=mailto:${checkForUndefined(restaurant.email)}>Email Restaurant</a>
             </li>
           </ul>
         </footer>
@@ -315,4 +314,12 @@ function displayRestaurants(restaurants) {
       );
     }
   }
+}
+
+// check for missing data and return generic message
+function checkForUndefined(restaurantInfo){
+  if (restaurantInfo === undefined){
+    return "Not available"
+  }
+  else return restaurantInfo
 }
