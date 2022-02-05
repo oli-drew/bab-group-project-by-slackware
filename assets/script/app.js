@@ -63,9 +63,8 @@ const getTravelAPI = async (lat, lon) => {
         userTAKey();
       }
     }
-    
   } catch (error) {
-    console.log(error);
+    console.log(`Error: ${error}`);
   }
 };
 
@@ -74,11 +73,12 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
-  cuisineSelector()
-  if (userCuisineChosesArray.length > 0){
-    displayRestaurants(restaurantsArray)
+  cuisineSelector();
+  if (userCuisineChosesArray.length > 0) {
+    displayRestaurants(restaurantsArray);
+  } else {
+    displayRestaurants(restaurants);
   }
-  else {displayRestaurants(restaurants)}
   // Loop over the data array
   restaurants.forEach((restaurant) => {
     console.log(restaurant);
@@ -95,23 +95,42 @@ let townInput;
 let searchedLatitude;
 let searchedLongitude;
 let mapData;
-function getGeocode(){
-  townInput = $('#userLocationInput').val()
-fetch(
-  `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
-)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    mapData = data;
-  })
-  .then(()=>{
-    searchedLatitude = mapData.items[0].position.lat
-    searchedLongitude = mapData.items[0].position.lng
-    getTravelAPI(searchedLatitude, searchedLongitude)
-  });
+function getGeocode() {
+  townInput = $("#userLocationInput").val();
+  fetch(
+    `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      mapData = data;
+    })
+    .then(() => {
+      searchedLatitude = mapData.items[0].position.lat;
+      searchedLongitude = mapData.items[0].position.lng;
+      getTravelAPI(searchedLatitude, searchedLongitude);
+    })
+    .catch((error) => {
+      console.log(`Error: ${error}`);
+      // Open Invalid Search Modal
+      invalidSearch(townInput);
+    });
 }
+
+// Invalid Search Modal function
+const invalidSearch = (townInput) => {
+  // console.log(`Invalid search: ${townInput}`);
+  document.querySelector("#invalidSearchQuery").innerHTML = townInput;
+  openModal(invalidSearchModal);
+};
+
+// Event listener to close the invalid search modal
+const invalidSearchBtn = document.querySelector("#invalidSearchBtn");
+invalidSearchBtn.addEventListener("click", function () {
+  closeModal(invalidSearchModal);
+});
+
 // render a map
 
 /**
@@ -227,7 +246,7 @@ getTAKey();
 let restaurantsArray = [];
 let cuisineArray = [];
 function cuisineSelector() {
-  restaurantsArray = []
+  restaurantsArray = [];
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name) {
@@ -241,12 +260,12 @@ function cuisineSelector() {
 // takes user choses and put them into an array
 let userCuisineChosesArray = [];
 function inputToArray() {
-  userCuisineChosesArray = []
+  userCuisineChosesArray = [];
   const userCuisineChoses = $(".cuisine:checked");
   for (let i = 0; i < userCuisineChoses.length; i++) {
     userCuisineChosesArray.push(userCuisineChoses[i].value);
   }
-  console.log(userCuisineChosesArray)
+  console.log(userCuisineChosesArray);
 }
 //function checks through each restaurants cuisines to see if it meets the criteria
 function cuisineArrayChecker(restaurant, userChose) {
@@ -255,23 +274,22 @@ function cuisineArrayChecker(restaurant, userChose) {
   }
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
-  } else {restaurantsArray.push(restaurant)}
+  } else {
+    restaurantsArray.push(restaurant);
+  }
   console.log(restaurantsArray);
 }
 // event listener on submit search button
-$('#submitButton').click( e =>{
-  e.preventDefault()
-  inputToArray()
-  getGeocode()
-})
-
-
-
+$("#submitButton").click((e) => {
+  e.preventDefault();
+  inputToArray();
+  getGeocode();
+});
 
 // render restaurant cards
 
 function displayRestaurants(restaurants) {
-  $("#restaurant-container").empty()
+  $("#restaurant-container").empty();
   for (let i = 0; i < restaurants.length; i++) {
     const restaurant = restaurants[i];
     if (restaurant.name && restaurant.photo) {
