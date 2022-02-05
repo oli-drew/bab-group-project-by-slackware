@@ -69,20 +69,23 @@ const getTravelAPI = async (lat, lon) => {
 };
 
 let restaurants;
-
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
   cuisineSelector();
+  //  if user made cuisine choices use applicable array
   if (userCuisineChosesArray.length > 0) {
     displayRestaurants(restaurantsArray);
+    addRestaurantMarkers(restaurantsArray);
   } else {
     displayRestaurants(restaurants);
+    addRestaurantMarkers(restaurants);
   }
-  // Loop over the data array
+};
+
+// Add Restaurant locations to map
+function addRestaurantMarkers(restaurants) {
   restaurants.forEach((restaurant) => {
-    console.log(restaurant);
-    // Add Restaurant locations to map
     addMarker(
       restaurant.name,
       restaurant.latitude,
@@ -90,8 +93,7 @@ const renderOutput = (data) => {
       restaurant.website
     );
   });
-};
-
+}
 // map data fetch
 let townInput;
 let searchedLatitude;
@@ -287,7 +289,7 @@ function displayRestaurants(restaurants) {
 // check for missing data and return generic message
 function checkForUndefined(restaurantInfo) {
   if (restaurantInfo === undefined) {
-    return "Not available";
+    return "Not-available";
   } else return restaurantInfo;
 }
 
