@@ -120,7 +120,6 @@ function getGeocode() {
 
 // Invalid Search Modal function
 const invalidSearch = (townInput) => {
-  // console.log(`Invalid search: ${townInput}`);
   document.querySelector("#invalidSearchQuery").innerHTML = townInput;
   openModal(invalidSearchModal);
 };
