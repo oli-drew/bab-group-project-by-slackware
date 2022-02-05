@@ -64,7 +64,7 @@ const getTravelAPI = async (lat, lon) => {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log(`Error: ${error}`);
   }
 };
 
@@ -110,8 +110,26 @@ function getGeocode() {
       searchedLatitude = mapData.items[0].position.lat;
       searchedLongitude = mapData.items[0].position.lng;
       getTravelAPI(searchedLatitude, searchedLongitude);
+    })
+    .catch((error) => {
+      console.log(`Error: ${error}`);
+      // Open Invalid Search Modal
+      invalidSearch(townInput);
     });
 }
+
+// Invalid Search Modal function
+const invalidSearch = (townInput) => {
+  document.querySelector("#invalidSearchQuery").innerHTML = townInput;
+  openModal(invalidSearchModal);
+};
+
+// Event listener to close the invalid search modal
+const invalidSearchBtn = document.querySelector("#invalidSearchBtn");
+invalidSearchBtn.addEventListener("click", function () {
+  closeModal(invalidSearchModal);
+});
+
 // render a map
 
 /**
