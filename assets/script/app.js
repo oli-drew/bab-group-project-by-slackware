@@ -319,7 +319,7 @@ function displayRestaurants(restaurants) {
               ${checkForUndefined(restaurant.address)}
             </li>
             <li>
-              Phone:${checkForUndefined(restaurant.phone)}
+              Phone: ${checkForUndefined(restaurant.phone)}
             </li>
             <li>
               <a href=mailto:${checkForUndefined(restaurant.email)}>Email Restaurant</a>
