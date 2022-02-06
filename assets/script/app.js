@@ -16,7 +16,7 @@ const userCuisineOptions = [
   "Vegetarian-Friendly",
   "Vegan-Options",
 ];
-
+userCuisineOptions.sort()
 // render cuisine options to the page
 userCuisineOptions.forEach((cuisine) => {
   $("#checkboxMenu").append(
@@ -35,9 +35,9 @@ let taAPIKey;
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
-  const limit = 10;
+  const limit = 30;
   const currency = "GBP";
-  const distance = 2;
+  const distance = 5;
   const isOpen = false;
   const units = "km";
   const language = "en_GB";
@@ -72,6 +72,7 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
+  restaurants.sort((a, b) => a.ranking_position - b.ranking_position)
   cuisineSelector();
   //  if user made cuisine choices use applicable array
   if (userCuisineChosesArray.length > 0) {
