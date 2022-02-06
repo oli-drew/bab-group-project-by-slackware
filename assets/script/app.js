@@ -368,71 +368,6 @@ map.on("click", function (evt) {
   } else {
     overlay.setPosition(undefined);
   }
-
-  else return restaurantInfo
-}
-
-/* Local Storage */
-
-const recentSearchesSize = 5;
-const recentSearchesKey = 'recentSearches';
-
-const searchButtonElement = $("#submitButton");
-const searchValueElement = $("#userLocationInput");
-const searchResultsListElement = $("search-results-list");
-const recentSearchListElement = $('#recent-search-list');
-const recentSearchClearButtonElement = $('#recent-search-clear');
-
-searchButtonElement.click(searchRestaurants);
-recentSearchClearButtonElement.click(clearRecentSearches);
-
-renderRecentSearches();
-
-function searchRestaurants(event){
-  event.preventDefault();
-  const searchValue = searchValueElement.val();
-  addRecentSearches(searchValue)
-  renderRecentSearches();
-  searchResultsListElement.html("");
-  for (let i = 0; i < 5; i++){
-    const newSearchResult = $("<li>");
-    newSearchResult.text(`Search result ${i} for search '${searchValue}'`);
-    searchResultsListElement.append(newSearchResult);
-  }
-}
-
-function renderRecentSearches() {
-  recentSearchListElement.html('');
-  getRecentSearchItems().forEach(searchItem => {
-      const newRecentSearchItems = $('<li>');
-      newRecentSearchItems.text(searchItem);
-      recentSearchListElement.prepend(newRecentSearchItems);
-  })
-}
-
-function getRecentSearchItems() {
-  const localStorageString = localStorage.getItem(recentSearchesKey)
-  if (localStorageString == null) {
-      return [];
-  }
-  return JSON.parse(localStorageString);
-}
-
-function addRecentSearches(term) {
-  const recentSearches = getRecentSearchItems();
-  recentSearches.push(term);
-  while (recentSearches.length > recentSearchesSize) {
-      recentSearches.shift();
-  }
-  const recentSearchString = JSON.stringify(recentSearches);
-  localStorage.setItem(recentSearchesKey, recentSearchString);
-}
-
-function clearRecentSearches() {
-  localStorage.removeItem(recentSearchesKey);
-  renderRecentSearches();
-}
-
 });
 
 // Close popup on map
@@ -442,3 +377,62 @@ closer.onclick = function () {
   return false;
 };
 
+/* Local Storage */
+const recentSearchesSize = 5;
+const recentSearchesKey = "recentSearches";
+
+const searchButtonElement = $("#submitButton");
+const searchValueElement = $("#userLocationInput");
+const searchResultsListElement = $("search-results-list");
+const recentSearchListElement = $("#recent-search-list");
+const recentSearchClearButtonElement = $("#recent-search-clear");
+
+searchButtonElement.click(searchRestaurants);
+recentSearchClearButtonElement.click(clearRecentSearches);
+
+renderRecentSearches();
+
+function searchRestaurants(event) {
+  event.preventDefault();
+  const searchValue = searchValueElement.val();
+  addRecentSearches(searchValue);
+  renderRecentSearches();
+  searchResultsListElement.html("");
+  for (let i = 0; i < 5; i++) {
+    const newSearchResult = $("<li>");
+    newSearchResult.text(`Search result ${i} for search '${searchValue}'`);
+    searchResultsListElement.append(newSearchResult);
+  }
+}
+
+function renderRecentSearches() {
+  recentSearchListElement.html("");
+  getRecentSearchItems().forEach((searchItem) => {
+    const newRecentSearchItems = $("<li>");
+    newRecentSearchItems.text(searchItem);
+    recentSearchListElement.prepend(newRecentSearchItems);
+  });
+}
+
+function getRecentSearchItems() {
+  const localStorageString = localStorage.getItem(recentSearchesKey);
+  if (localStorageString == null) {
+    return [];
+  }
+  return JSON.parse(localStorageString);
+}
+
+function addRecentSearches(term) {
+  const recentSearches = getRecentSearchItems();
+  recentSearches.push(term);
+  while (recentSearches.length > recentSearchesSize) {
+    recentSearches.shift();
+  }
+  const recentSearchString = JSON.stringify(recentSearches);
+  localStorage.setItem(recentSearchesKey, recentSearchString);
+}
+
+function clearRecentSearches() {
+  localStorage.removeItem(recentSearchesKey);
+  renderRecentSearches();
+}
