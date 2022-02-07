@@ -62,35 +62,42 @@
     </header>
 <aside>
           <!-- search input -->
-          <form class="p-3" action="">
-            <div class="field">
-              <label class="label"></label>
-              <div class="control">
-                <input
-                  id="userLocationInput"
-                  class="input"
-                  type="text"
-                  placeholder="city/postcode"
-                />
-              </div>
+        <form class="p-3" action="">
+          <div class="field">
+            <label class="label"></label>
+            <div class="control">
+              <input
+                id="userLocationInput"
+                class="input"
+                type="text"
+                placeholder="city/town/postcode"
+              />
             </div>
-  
-            <!-- checkbox menu - common restaurants genres-->
-            <div class="field">
-              <div class="control" id="checkboxMenu">
-                <!-- generated in js-->
-              </div>
+          </div>
+
+          <!-- checkbox menu - common restaurants genres-->
+          <div class="field">
+            <div class="control" id="checkboxMenu">
+              <!-- generated in js-->
             </div>
-            <!-- submit button -->
-            <div class="field is-grouped">
-              <div class="control">
-                <button id="submitButton" class="button is-link">Submit</button>
-              </div>
+          </div>
+          <!-- submit button -->
+          <div class="field is-grouped">
+            <div class="control">
+              <button id="submitButton" class="button is-link">Submit</button>
             </div>
-          </form>
+            <div id="search-results">
+              <ul id="search-results-list"></ul>
+            </div>
+          </div>
+          <div id="recent-searches">
+            <ul id="recent-search-list"></ul>
+            <button id="recent-search-clear" class="button is-link">Clear</button>
+        </div>
+       </form>
 </aside>
     <main>
-      <!-- section containing form and map -->
+      <!-- section containing map -->
       <section
         class="field has-addons is-justify-content-space-around"
         id="formMapContainer"
