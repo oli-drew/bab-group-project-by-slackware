@@ -223,6 +223,7 @@ function cuisineArrayChecker(restaurant, userChose) {
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
   } else {
+    if (restaurantsArray.includes(restaurant)) {return}
     restaurantsArray.push(restaurant);
   }
   console.log(restaurantsArray);
