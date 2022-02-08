@@ -16,7 +16,7 @@ const userCuisineOptions = [
   "Vegetarian-Friendly",
   "Vegan-Options",
 ];
-userCuisineOptions.sort()
+userCuisineOptions.sort();
 // render cuisine options to the page
 userCuisineOptions.forEach((cuisine) => {
   $("#checkboxMenu").append(
@@ -72,7 +72,7 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
-  restaurants.sort((a, b) => a.ranking_position - b.ranking_position)
+  restaurants.sort((a, b) => a.ranking_position - b.ranking_position);
   cuisineSelector();
   //  if user made cuisine choices use applicable array
   if (userCuisineChosesArray.length > 0) {
@@ -225,7 +225,9 @@ function cuisineArrayChecker(restaurant, userChose) {
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
   } else {
-    if (restaurantsArray.includes(restaurant)) {return}
+    if (restaurantsArray.includes(restaurant)) {
+      return;
+    }
     restaurantsArray.push(restaurant);
   }
   console.log(restaurantsArray);
@@ -271,6 +273,11 @@ function displayRestaurants(restaurants) {
             <li>
               Address:<br>
               ${checkForUndefined(restaurant.address)}
+            </li>
+            <li> 
+              <a onClick="viewRestaurantOnMap(${restaurant.latitude},${
+            restaurant.longitude
+          })">View on Map</a>
             </li>
             <li>
               Phone: ${checkForUndefined(restaurant.phone)}
@@ -396,6 +403,12 @@ const removeMapMarkers = () => {
       map.removeLayer(layer);
     }
   });
+};
+
+// View restaurant on map
+const viewRestaurantOnMap = (lat, lon) => {
+  updateMapCenter(lat, lon, 20);
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
 };
 
 /* Local Storage */
