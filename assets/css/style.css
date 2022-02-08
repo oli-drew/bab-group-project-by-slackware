@@ -170,6 +170,7 @@ footer{
   visibility: hidden !important;
 }
 
+
 .card{
   padding: 2%;
   height: 100%;
@@ -179,3 +180,26 @@ footer{
   box-shadow: 0px 0px 20px black;
   transition: 1s all;
 }
+
+#recent-search-list{
+  padding:10px 0px;
+  line-height: 30px;
+  font-family: "Old Standard TT", serif;
+  font-size: larger;
+  font-weight: bold;
+  color: black;
+  
+}
+
+#recent-search-list li{
+  padding-left: 10px;
+}
+
+
+#recent-search-list li:hover {
+  background-color: rgb(228, 226, 226);
+  border-radius: 3px;
+  transition: all 1s;
+  cursor: pointer;
+}
+

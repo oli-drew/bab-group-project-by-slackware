@@ -421,19 +421,13 @@ function searchRestaurants(event) {
   const searchValue = searchValueElement.val();
   addRecentSearches(searchValue);
   renderRecentSearches();
-  searchResultsListElement.html("");
-  for (let i = 0; i < 5; i++) {
-    const newSearchResult = $("<li>");
-    newSearchResult.text(`Search result ${i} for search '${searchValue}'`);
-    searchResultsListElement.append(newSearchResult);
-  }
 }
 
 function renderRecentSearches() {
   recentSearchListElement.html("");
   getRecentSearchItems().forEach((searchItem) => {
     const newRecentSearchItems = $("<li>");
-    newRecentSearchItems.text(searchItem);
+    newRecentSearchItems.text(searchItem.charAt(0).toUpperCase()+searchItem.slice(1));
     recentSearchListElement.prepend(newRecentSearchItems);
   });
 }
@@ -448,12 +442,14 @@ function getRecentSearchItems() {
 
 function addRecentSearches(term) {
   const recentSearches = getRecentSearchItems();
+  if (recentSearches.includes(term)) {
+    return
+  }
   recentSearches.push(term);
   while (recentSearches.length > recentSearchesSize) {
     recentSearches.shift();
   }
-  const recentSearchString = JSON.stringify(recentSearches);
-  localStorage.setItem(recentSearchesKey, recentSearchString);
+  localStorage.setItem(recentSearchesKey, JSON.stringify(recentSearches));
 }
 
 function clearRecentSearches() {
