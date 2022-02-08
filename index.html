@@ -60,13 +60,8 @@
     <header class="header">
       <h1>Birmingham Association Banquets</h1>
     </header>
-    <main>
-      <!-- section containing form and map -->
-      <section
-        class="field has-addons is-justify-content-space-around"
-        id="formMapContainer"
-      >
-        <!-- search input -->
+<aside>
+          <!-- search input -->
         <form class="p-3" action="">
           <div class="field">
             <label class="label"></label>
@@ -99,12 +94,17 @@
             <ul id="recent-search-list"></ul>
             <button id="recent-search-clear" class="button is-link">Clear</button>
         </div>
-        </form>
-        
-
+       </form>
+</aside>
+    <main>
+      <!-- section containing map -->
+      <section
+        class="field has-addons is-justify-content-space-around"
+        id="formMapContainer"
+      >
         <!-- map container -->
         <div class="tile is-parent is-8 is-justify-content-space-around">
-          <div class="tile is-parent is-8">
+          <div class="tile is-parent is-12">
             <div class="tile is-child box">
               <div class="map-container">
                 <div id="map" class="map">
@@ -118,7 +118,7 @@
         </div>
       </section>
       <!-- restaurants cards - probably hidden until user searches -->
-      <section class="container">
+      <section class="container" id="restaurantCardSection">
         <div
           class="container columns is-justify-content-space-around is-multiline"
           id="restaurant-container"
@@ -175,6 +175,7 @@
         </div>
       </div>
     </div>
+    <footer>-- B.A.B --</footer>
   </body>
 
   <script src="assets/script/app.js"></script>

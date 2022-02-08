@@ -16,7 +16,7 @@ const userCuisineOptions = [
   "Vegetarian-Friendly",
   "Vegan-Options",
 ];
-
+userCuisineOptions.sort()
 // render cuisine options to the page
 userCuisineOptions.forEach((cuisine) => {
   $("#checkboxMenu").append(
@@ -35,9 +35,9 @@ let taAPIKey;
 // Fetch Travel Advisor API function
 const getTravelAPI = async (lat, lon) => {
   // Fixed variables
-  const limit = 10;
+  const limit = 30;
   const currency = "GBP";
-  const distance = 2;
+  const distance = 5;
   const isOpen = false;
   const units = "km";
   const language = "en_GB";
@@ -69,20 +69,24 @@ const getTravelAPI = async (lat, lon) => {
 };
 
 let restaurants;
-
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
+  restaurants.sort((a, b) => a.ranking_position - b.ranking_position)
   cuisineSelector();
+  //  if user made cuisine choices use applicable array
   if (userCuisineChosesArray.length > 0) {
     displayRestaurants(restaurantsArray);
+    addRestaurantMarkers(restaurantsArray);
   } else {
     displayRestaurants(restaurants);
+    addRestaurantMarkers(restaurants);
   }
-  // Loop over the data array
+};
+
+// Add Restaurant locations to map
+function addRestaurantMarkers(restaurants) {
   restaurants.forEach((restaurant) => {
-    console.log(restaurant);
-    // Add Restaurant locations to map
     addMarker(
       restaurant.name,
       restaurant.latitude,
@@ -90,8 +94,7 @@ const renderOutput = (data) => {
       restaurant.location_id
     );
   });
-};
-
+}
 // map data fetch
 let townInput;
 let searchedLatitude;
@@ -222,6 +225,7 @@ function cuisineArrayChecker(restaurant, userChose) {
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
   } else {
+    if (restaurantsArray.includes(restaurant)) {return}
     restaurantsArray.push(restaurant);
   }
   console.log(restaurantsArray);
@@ -289,7 +293,7 @@ function displayRestaurants(restaurants) {
 // check for missing data and return generic message
 function checkForUndefined(restaurantInfo) {
   if (restaurantInfo === undefined) {
-    return "Not available";
+    return "Not-available";
   } else return restaurantInfo;
 }
 
