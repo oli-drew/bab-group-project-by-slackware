@@ -16,7 +16,7 @@ const userCuisineOptions = [
   "Vegetarian-Friendly",
   "Vegan-Options",
 ];
-userCuisineOptions.sort()
+userCuisineOptions.sort();
 // render cuisine options to the page
 userCuisineOptions.forEach((cuisine) => {
   $("#checkboxMenu").append(
@@ -72,7 +72,7 @@ let restaurants;
 // Render Travel Advisor Output function
 const renderOutput = (data) => {
   restaurants = data.data;
-  restaurants.sort((a, b) => a.ranking_position - b.ranking_position)
+  restaurants.sort((a, b) => a.ranking_position - b.ranking_position);
   cuisineSelector();
   //  if user made cuisine choices use applicable array
   if (userCuisineChosesArray.length > 0) {
@@ -225,7 +225,9 @@ function cuisineArrayChecker(restaurant, userChose) {
   if (cuisineArray.indexOf(userChose) === -1) {
     return;
   } else {
-    if (restaurantsArray.includes(restaurant)) {return}
+    if (restaurantsArray.includes(restaurant)) {
+      return;
+    }
     restaurantsArray.push(restaurant);
   }
   console.log(restaurantsArray);
@@ -245,45 +247,47 @@ function displayRestaurants(restaurants) {
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-          `<div id="${restaurant.location_id}" class="card column is-5 m-1">
-      <div class="cardTitle">
-        <p id="card-name" class="title is-5">${restaurant.name}</p>
-      </div>
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="${restaurant.photo.images.medium.url}">
-        </figure>
-      </div>
-      <div id="card-content" "class="card-content">
-        <div class="content">
-          <details>
-            <summary class="restaurantDescription">Description</summary>
-            <p>${checkForUndefined(restaurant.description)}</p>
-          </details>
-        </div>
-        <div id="website" class="content">
-          <a href=${checkForUndefined(
-            restaurant.website
-          )} target='_blank'>Visit Website</a>
-        </div>
-        <footer class="card-footer">
-          <ul id="footer">
-            <li>
-              Address:<br>
-              ${checkForUndefined(restaurant.address)}
-            </li>
-            <li>
-              Phone: ${checkForUndefined(restaurant.phone)}
-            </li>
-            <li>
-              <a href=mailto:${checkForUndefined(
-                restaurant.email
-              )}>Email Restaurant</a>
-            </li>
-          </ul>
-        </footer>
-      </div>
-    </div>`
+          `<div class="column is-4">
+            <div id="${restaurant.location_id}" class="card">
+              <div class="cardTitle">
+                <p id="card-name" class="title is-5">${restaurant.name}</p>
+              </div>
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="${restaurant.photo.images.medium.url}">
+                </figure>
+              </div>
+              <div id="card-content" "class="card-content">
+                <div class="content">
+                  <details>
+                    <summary class="restaurantDescription">Description</summary>
+                    <p>${checkForUndefined(restaurant.description)}</p>
+                  </details>
+                </div>
+                <div id="website" class="content">
+                  <a href=${checkForUndefined(
+                    restaurant.website
+                  )} target='_blank'>Visit Website</a>
+                </div>
+              <footer class="card-footer">
+                <ul id="footer">
+                  <li>
+                    Address:<br>
+                    ${checkForUndefined(restaurant.address)}
+                  </li>
+                  <li>
+                    Phone: ${checkForUndefined(restaurant.phone)}
+                  </li>
+                  <li>
+                    <a href=mailto:${checkForUndefined(
+                      restaurant.email
+                    )}>Email Restaurant</a>
+                  </li>
+                </ul>
+              </footer>
+            </div>
+          </div>
+        </div>`
         )
       );
     }
@@ -407,7 +411,6 @@ const searchValueElement = $("#userLocationInput");
 const searchResultsListElement = $("search-results-list");
 const recentSearchListElement = $("#recent-search-list");
 const recentSearchClearButtonElement = $("#recent-search-clear");
-
 searchButtonElement.click(searchRestaurants);
 recentSearchClearButtonElement.click(clearRecentSearches);
 
@@ -457,3 +460,31 @@ function clearRecentSearches() {
   localStorage.removeItem(recentSearchesKey);
   renderRecentSearches();
 }
+
+// sort by distance
+
+const distanceButton = $("#distanceButton");
+const ratingButton = $("#ratingButton");
+
+function sortByDistance() {
+  if (restaurantsArray.length > 0) {
+    restaurantsArray.sort((a, b) => a.distance - b.distance);
+    displayRestaurants(restaurantsArray);
+  } else {
+    restaurants.sort((a, b) => a.distance - b.distance);
+    displayRestaurants(restaurants);
+  }
+}
+
+function sortByRating() {
+  if (restaurantsArray.length > 0) {
+    restaurantsArray.sort((a, b) => a.ranking_position - b.ranking_position);
+    displayRestaurants(restaurantsArray);
+  } else {
+    restaurants.sort((a, b) => a.ranking_position - b.ranking_position);
+    displayRestaurants(restaurants);
+  }
+}
+
+distanceButton.click(sortByDistance);
+ratingButton.click(sortByRating);

@@ -14,7 +14,8 @@ html{
 }
 
 main{
-    margin-left: 180px;
+    margin-left: 190px;
+    margin-right: 10px;
 }
 
 header {
@@ -167,4 +168,9 @@ footer{
 
 .ol-attribution {
   visibility: hidden !important;
+}
+
+.card{
+  padding: 2%;
+  height: 100%;
 }
