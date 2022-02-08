@@ -91,7 +91,7 @@ function addRestaurantMarkers(restaurants) {
       restaurant.name,
       restaurant.latitude,
       restaurant.longitude,
-      restaurant.website
+      restaurant.location_id
     );
   });
 }
@@ -114,6 +114,8 @@ function getGeocode() {
     .then(() => {
       searchedLatitude = mapData.items[0].position.lat;
       searchedLongitude = mapData.items[0].position.lng;
+      // Remove previous markers
+      removeMapMarkers();
       getTravelAPI(searchedLatitude, searchedLongitude);
       // Center map
       updateMapCenter(searchedLatitude, searchedLongitude, 16);
@@ -243,7 +245,7 @@ function displayRestaurants(restaurants) {
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-          `<div class="card column is-5 m-1">
+          `<div id="${restaurant.location_id}" class="card column is-5 m-1">
       <div class="cardTitle">
         <p id="card-name" class="title is-5">${restaurant.name}</p>
       </div>
@@ -316,6 +318,7 @@ const map = new ol.Map({
   target: "map",
   layers: [
     new ol.layer.Tile({
+      name: "openStreet",
       source: new ol.source.OSM(),
     }),
   ],
@@ -333,29 +336,33 @@ const updateMapCenter = (lat, lon, zoom = 15) => {
 };
 
 // Function to create marker
-const addMarker = (place, lat, lon, website) => {
-  const marker = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
-    name: place,
-    website: website,
-  });
+const addMarker = (place, lat, lon, element) => {
+  if (place) {
+    const marker = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+      name: place,
+      element: element,
+    });
 
-  const markers = new ol.source.Vector({
-    features: [marker],
-  });
+    const markers = new ol.source.Vector({
+      name: "mapMarkers",
+      features: [marker],
+    });
 
-  const markerVectorLayer = new ol.layer.Vector({
-    source: markers,
-    style: new ol.style.Style({
-      image: new ol.style.Icon({
-        anchor: [0.5, 46],
-        anchorXUnits: "fraction",
-        anchorYUnits: "pixels",
-        src: "./assets/images/icon.png",
+    const markerVectorLayer = new ol.layer.Vector({
+      name: place,
+      source: markers,
+      style: new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 46],
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          src: "./assets/images/icon.png",
+        }),
       }),
-    }),
-  });
-  map.addLayer(markerVectorLayer);
+    });
+    map.addLayer(markerVectorLayer);
+  }
 };
 
 // Display popup on icon click
@@ -366,8 +373,8 @@ map.on("click", function (evt) {
   if (feature) {
     const coordinate = evt.coordinate;
     const name = feature.get("name");
-    const website = feature.get("website");
-    content.innerHTML = `<p>${name}</p><p>${website}</p>`;
+    const elementID = feature.get("element");
+    content.innerHTML = `<p>${name}</p><a href="#${elementID}">More information</a>`;
     overlay.setPosition(coordinate);
   } else {
     overlay.setPosition(undefined);
@@ -379,6 +386,16 @@ closer.onclick = function () {
   overlay.setPosition(undefined);
   closer.blur();
   return false;
+};
+
+// Clear Map Markers
+const removeMapMarkers = () => {
+  const layers = [...map.getLayers().getArray()];
+  layers.forEach((layer) => {
+    if (layer && layer.get("name") !== "openStreet") {
+      map.removeLayer(layer);
+    }
+  });
 };
 
 /* Local Storage */
