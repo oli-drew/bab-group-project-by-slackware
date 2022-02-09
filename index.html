@@ -91,8 +91,9 @@
             </div>
           </div>
           <div id="recent-searches">
+            <p>Recent searches:</p>
             <ul id="recent-search-list"></ul>
-            <button id="recent-search-clear" class="button is-link">Clear</button>
+            <button id="recent-search-clear" class="button is-text">Clear</button>
         </div>
        </form>
 </aside>
@@ -103,7 +104,7 @@
         id="formMapContainer"
       >
         <!-- map container -->
-        <div class="tile is-parent is-8 is-justify-content-space-around">
+        <div class="tile is-parent is-12 is-justify-content-space-around">
           <div class="tile is-parent is-12">
             <div class="tile is-child box">
               <div class="map-container">
@@ -117,9 +118,13 @@
           </div>
         </div>
       </section>
-      <button id="ratingButton">Sort by rating</button><button id="distanceButton">sort by distance</button>
       <!-- restaurants cards - probably hidden until user searches -->
       <section class="container" id="restaurantCardSection">
+        <div id="sortBy">
+          <p>Sort by:</p>
+          <button class="button is-text" id="ratingButton">Rating &#9662</button>
+          <button class="button is-text" id="distanceButton">Distance &#9662</button>
+        </div>
         <div
           class="container columns is-justify-content-space-around is-1 is-multiline"
           id="restaurant-container"

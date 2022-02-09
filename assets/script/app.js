@@ -101,7 +101,6 @@ let searchedLatitude;
 let searchedLongitude;
 let mapData;
 function getGeocode() {
-  townInput = $("#userLocationInput").val();
   fetch(
     `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
   )
@@ -236,6 +235,7 @@ function cuisineArrayChecker(restaurant, userChose) {
 $("#submitButton").click((e) => {
   e.preventDefault();
   inputToArray();
+  townInput = $("#userLocationInput").val();
   getGeocode();
 });
 
@@ -457,7 +457,7 @@ function clearRecentSearches() {
   renderRecentSearches();
 }
 
-// sort by distance
+// sort by distance/rating
 
 const distanceButton = $("#distanceButton");
 const ratingButton = $("#ratingButton");
@@ -484,3 +484,12 @@ function sortByRating() {
 
 distanceButton.click(sortByDistance);
 ratingButton.click(sortByRating);
+
+// search from history
+
+function searchFromHistory(e) {
+  townInput = e.target.innerText;
+  getGeocode();
+}
+
+recentSearchListElement.click(searchFromHistory)
