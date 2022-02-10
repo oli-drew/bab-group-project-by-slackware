@@ -82,6 +82,7 @@ const renderOutput = (data) => {
     displayRestaurants(restaurants);
     addRestaurantMarkers(restaurants);
   }
+  $("#userLocationInput").val('');
   $('main').removeClass('fadeIn')
 };
 
@@ -236,7 +237,6 @@ $("#submitButton").click((e) => {
   e.preventDefault();
   inputToArray();
   townInput = $("#userLocationInput").val();
-  $("#userLocationInput").val('');
   getGeocode();
   $('main').addClass('fadeIn')
 });
