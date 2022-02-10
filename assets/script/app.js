@@ -82,6 +82,8 @@ const renderOutput = (data) => {
     displayRestaurants(restaurants);
     addRestaurantMarkers(restaurants);
   }
+  $("#userLocationInput").val("");
+  $("main").removeClass("fadeIn");
 };
 
 // Add Restaurant locations to map
@@ -101,7 +103,6 @@ let searchedLatitude;
 let searchedLongitude;
 let mapData;
 function getGeocode() {
-  townInput = $("#userLocationInput").val();
   fetch(
     `https://geocode.search.hereapi.com/v1/geocode?q=${townInput}&apiKey=CKReAVlxRYgsLhXPUI3tRrhdngw1rBQNvm426xif23M`
   )
@@ -230,13 +231,14 @@ function cuisineArrayChecker(restaurant, userChose) {
     }
     restaurantsArray.push(restaurant);
   }
-  console.log(restaurantsArray);
 }
 // event listener on submit search button
 $("#submitButton").click((e) => {
   e.preventDefault();
   inputToArray();
+  townInput = $("#userLocationInput").val();
   getGeocode();
+  $("main").addClass("fadeIn");
 });
 
 // render restaurant cards
@@ -247,50 +249,52 @@ function displayRestaurants(restaurants) {
     if (restaurant.name && restaurant.photo) {
       $("#restaurant-container").append(
         $(
-          `<div id="${restaurant.location_id}" class="card column is-5 m-1">
-      <div class="cardTitle">
-        <p id="card-name" class="title is-5">${restaurant.name}</p>
-      </div>
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="${restaurant.photo.images.medium.url}">
-        </figure>
-      </div>
-      <div id="card-content" "class="card-content">
-        <div class="content">
-          <details>
-            <summary class="restaurantDescription">Description</summary>
-            <p>${checkForUndefined(restaurant.description)}</p>
-          </details>
-        </div>
-        <div id="website" class="content">
-          <a href=${checkForUndefined(
-            restaurant.website
-          )} target='_blank'>Visit Website</a>
-        </div>
-        <footer class="card-footer">
-          <ul id="footer">
-            <li>
-              Address:<br>
-              ${checkForUndefined(restaurant.address)}
-            </li>
-            <li> 
-              <a onClick="viewRestaurantOnMap(${restaurant.latitude},${
+          `<div class="column is-4">
+            <div id="${restaurant.location_id}" class="card">
+              <div class="cardTitle">
+                <p id="card-name" class="title is-5">${restaurant.name}</p>
+              </div>
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="${restaurant.photo.images.medium.url}">
+                </figure>
+              </div>
+              <div id="card-content" "class="card-content">
+                <div class="content">
+                  <details>
+                    <summary class="restaurantDescription">Description</summary>
+                    <p>${checkForUndefined(restaurant.description)}</p>
+                  </details>
+                </div>
+                <div id="website" class="content">
+                  <a href=${checkForUndefined(
+                    restaurant.website
+                  )} target='_blank'>Visit Website</a>
+                </div>
+              <footer class="card-footer">
+                <ul id="footer">
+                  <li>
+                    Address:<br>
+                    ${checkForUndefined(restaurant.address)}
+                  </li>
+                  <li> 
+                    <a onClick="viewRestaurantOnMap(${restaurant.latitude},${
             restaurant.longitude
           })">View on Map</a>
-            </li>
-            <li>
-              Phone: ${checkForUndefined(restaurant.phone)}
-            </li>
-            <li>
-              <a href=mailto:${checkForUndefined(
-                restaurant.email
-              )}>Email Restaurant</a>
-            </li>
-          </ul>
-        </footer>
-      </div>
-    </div>`
+                  </li>
+                  <li>
+                    Phone: ${checkForUndefined(restaurant.phone)}
+                  </li>
+                  <li>
+                    <a href=mailto:${checkForUndefined(
+                      restaurant.email
+                    )}>Email Restaurant</a>
+                  </li>
+                </ul>
+              </footer>
+            </div>
+          </div>
+        </div>`
         )
       );
     }
@@ -420,7 +424,6 @@ const searchValueElement = $("#userLocationInput");
 const searchResultsListElement = $("search-results-list");
 const recentSearchListElement = $("#recent-search-list");
 const recentSearchClearButtonElement = $("#recent-search-clear");
-
 searchButtonElement.click(searchRestaurants);
 recentSearchClearButtonElement.click(clearRecentSearches);
 
@@ -431,19 +434,15 @@ function searchRestaurants(event) {
   const searchValue = searchValueElement.val();
   addRecentSearches(searchValue);
   renderRecentSearches();
-  searchResultsListElement.html("");
-  for (let i = 0; i < 5; i++) {
-    const newSearchResult = $("<li>");
-    newSearchResult.text(`Search result ${i} for search '${searchValue}'`);
-    searchResultsListElement.append(newSearchResult);
-  }
 }
 
 function renderRecentSearches() {
   recentSearchListElement.html("");
   getRecentSearchItems().forEach((searchItem) => {
     const newRecentSearchItems = $("<li>");
-    newRecentSearchItems.text(searchItem);
+    newRecentSearchItems.text(
+      searchItem.charAt(0).toUpperCase() + searchItem.slice(1)
+    );
     recentSearchListElement.prepend(newRecentSearchItems);
   });
 }
@@ -458,15 +457,55 @@ function getRecentSearchItems() {
 
 function addRecentSearches(term) {
   const recentSearches = getRecentSearchItems();
+  if (recentSearches.includes(term)) {
+    return;
+  }
   recentSearches.push(term);
   while (recentSearches.length > recentSearchesSize) {
     recentSearches.shift();
   }
-  const recentSearchString = JSON.stringify(recentSearches);
-  localStorage.setItem(recentSearchesKey, recentSearchString);
+  localStorage.setItem(recentSearchesKey, JSON.stringify(recentSearches));
 }
 
 function clearRecentSearches() {
   localStorage.removeItem(recentSearchesKey);
   renderRecentSearches();
 }
+
+// sort by distance/rating
+
+const distanceButton = $("#distanceButton");
+const ratingButton = $("#ratingButton");
+
+function sortByDistance() {
+  if (restaurantsArray.length > 0) {
+    restaurantsArray.sort((a, b) => a.distance - b.distance);
+    displayRestaurants(restaurantsArray);
+  } else {
+    restaurants.sort((a, b) => a.distance - b.distance);
+    displayRestaurants(restaurants);
+  }
+}
+
+function sortByRating() {
+  if (restaurantsArray.length > 0) {
+    restaurantsArray.sort((a, b) => a.ranking_position - b.ranking_position);
+    displayRestaurants(restaurantsArray);
+  } else {
+    restaurants.sort((a, b) => a.ranking_position - b.ranking_position);
+    displayRestaurants(restaurants);
+  }
+}
+
+distanceButton.click(sortByDistance);
+ratingButton.click(sortByRating);
+
+// search from history
+
+function searchFromHistory(e) {
+  townInput = e.target.innerText;
+  getGeocode();
+  $("main").addClass("fadeIn");
+}
+
+recentSearchListElement.click(searchFromHistory);
