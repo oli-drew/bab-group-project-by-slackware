@@ -82,6 +82,7 @@ const renderOutput = (data) => {
     displayRestaurants(restaurants);
     addRestaurantMarkers(restaurants);
   }
+  $('main').removeClass('fadeIn')
 };
 
 // Add Restaurant locations to map
@@ -229,14 +230,15 @@ function cuisineArrayChecker(restaurant, userChose) {
     }
     restaurantsArray.push(restaurant);
   }
-  console.log(restaurantsArray);
 }
 // event listener on submit search button
 $("#submitButton").click((e) => {
   e.preventDefault();
   inputToArray();
   townInput = $("#userLocationInput").val();
+  $("#userLocationInput").val('');
   getGeocode();
+  $('main').addClass('fadeIn')
 });
 
 // render restaurant cards
@@ -490,6 +492,7 @@ ratingButton.click(sortByRating);
 function searchFromHistory(e) {
   townInput = e.target.innerText;
   getGeocode();
+  $('main').addClass('fadeIn')
 }
 
 recentSearchListElement.click(searchFromHistory)
