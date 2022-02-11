@@ -210,13 +210,21 @@ footer{
 }
 
 #sortBy{
-  display: flex;
+  display: none;
   align-items: center;
   margin-bottom: 10px;
 }
 
 #ratingButton, #distanceButton {
   margin: 0px 5px;
+}
+
+#aboutBAB {
+  text-align: center;
+  line-height: 30px;
+  font-family: "Old Standard TT", serif;
+  font-weight: bold;
+  color: #1d1d1d;
 }
 
 /* fade animations */

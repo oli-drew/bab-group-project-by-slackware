@@ -216,7 +216,6 @@ function inputToArray() {
       userCuisineChoses[i].value.split("-").join(" ")
     );
   }
-  console.log(userCuisineChosesArray);
 }
 //function checks through each restaurants cuisines to see if it meets the criteria
 function cuisineArrayChecker(restaurant, userChose) {
@@ -299,6 +298,8 @@ function displayRestaurants(restaurants) {
       );
     }
   }
+  $('#sortBy').css('display', 'flex')
+  $('#aboutBAB').css('display', 'none')
 }
 
 // check for missing data and return generic message
