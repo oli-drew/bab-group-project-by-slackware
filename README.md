@@ -1,6 +1,6 @@
 # Birmingham Association Banquets
 
-![BAB Logo](./assets/images/Plate-logo.png)
+![BAB Logo](assets/images/Plate-logo.png)
 
 ## Description
 
