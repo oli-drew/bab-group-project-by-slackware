@@ -197,11 +197,6 @@ footer{
   
 }
 
-#recent-search-list li{
-  padding-left: 10px;
-}
-
-
 #recent-search-list li:hover {
   background-color: rgb(228, 226, 226);
   border-radius: 3px;
@@ -210,13 +205,21 @@ footer{
 }
 
 #sortBy{
-  display: flex;
+  display: none;
   align-items: center;
   margin-bottom: 10px;
 }
 
 #ratingButton, #distanceButton {
   margin: 0px 5px;
+}
+
+#aboutBAB {
+  text-align: center;
+  line-height: 30px;
+  font-family: "Old Standard TT", serif;
+  font-weight: bold;
+  color: #1d1d1d;
 }
 
 /* fade animations */

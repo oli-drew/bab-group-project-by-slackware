@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="Birmingham Association Banquets helps you find fantastic restaurants near you. Simply search for any city or postcode!">
+    <meta name="keywords" content="food, restaurants, city, birmingham, restaurant, find, search, eat-out, places">
+    <meta name="Author" content="Oliver Drew, Ben Growcott, Dylan Allison, Nadira Ali">
     <!-- Openlayers Map -->
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
     <link
@@ -54,16 +57,17 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon (2) (1).png">
     <title>Birmingham Association Banquets</title>
   </head>
   <body>
     <header class="header">
-      <img class="logo" src="assets/images/Plate-logo.png">
+      <img class="logo" src="assets/images/bab-plate-logo-lg (1).png">
       <h1>Birmingham Association Banquets</h1>
     </header>
 <aside>
           <!-- search input -->
-        <form class="p-3" action="">
+        <form class="p-3">
           <div class="field">
             <label id='label' class="label"></label>
             <div class="control">
@@ -121,6 +125,16 @@
       </section>
       <!-- restaurants cards - probably hidden until user searches -->
       <section class="container" id="restaurantCardSection">
+        <div id="aboutBAB">
+        <p>
+          B.A.B was created by a group of Brummie food lovers/web developers. 
+          Combining our passions to create a website that 
+          helps you find great restaurants in the Birmingham area and beyond!
+        </p>
+        <p>
+          Simply search any city or postcode worldwide and find fantastic restaurants near you.
+        </p>
+      </div>
         <div id="sortBy">
           <p>Sort by:</p>
           <button class="button is-text" id="ratingButton">Rating &#9662</button>
@@ -182,7 +196,7 @@
         </div>
       </div>
     </div>
-    <footer>--B.A.B--</footer>
+    <!-- <footer>--B.A.B--</footer> -->
   </body>
 
   <script src="assets/script/app.js"></script>
