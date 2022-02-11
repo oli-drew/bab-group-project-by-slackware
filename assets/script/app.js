@@ -505,6 +505,7 @@ ratingButton.click(sortByRating);
 
 function searchFromHistory(e) {
   townInput = e.target.innerText;
+  inputToArray();
   getGeocode();
   $("main").addClass("fadeIn");
 }

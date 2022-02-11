@@ -197,11 +197,6 @@ footer{
   
 }
 
-#recent-search-list li{
-  padding-left: 10px;
-}
-
-
 #recent-search-list li:hover {
   background-color: rgb(228, 226, 226);
   border-radius: 3px;
