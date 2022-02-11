@@ -82,8 +82,8 @@ const renderOutput = (data) => {
     displayRestaurants(restaurants);
     addRestaurantMarkers(restaurants);
   }
-  $("#userLocationInput").val('');
-  $('main').removeClass('fadeIn')
+  $("#userLocationInput").val("");
+  $("main").removeClass("fadeIn");
 };
 
 // Add Restaurant locations to map
@@ -238,7 +238,7 @@ $("#submitButton").click((e) => {
   inputToArray();
   townInput = $("#userLocationInput").val();
   getGeocode();
-  $('main').addClass('fadeIn')
+  $("main").addClass("fadeIn");
 });
 
 // render restaurant cards
@@ -276,6 +276,11 @@ function displayRestaurants(restaurants) {
                   <li>
                     Address:<br>
                     ${checkForUndefined(restaurant.address)}
+                  </li>
+                  <li> 
+                    <a onClick="viewRestaurantOnMap(${restaurant.latitude},${
+            restaurant.longitude
+          })">View on Map</a>
                   </li>
                   <li>
                     Phone: ${checkForUndefined(restaurant.phone)}
@@ -404,6 +409,12 @@ const removeMapMarkers = () => {
   });
 };
 
+// View restaurant on map
+const viewRestaurantOnMap = (lat, lon) => {
+  updateMapCenter(lat, lon, 20);
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
+};
+
 /* Local Storage */
 const recentSearchesSize = 5;
 const recentSearchesKey = "recentSearches";
@@ -429,7 +440,9 @@ function renderRecentSearches() {
   recentSearchListElement.html("");
   getRecentSearchItems().forEach((searchItem) => {
     const newRecentSearchItems = $("<li>");
-    newRecentSearchItems.text(searchItem.charAt(0).toUpperCase()+searchItem.slice(1));
+    newRecentSearchItems.text(
+      searchItem.charAt(0).toUpperCase() + searchItem.slice(1)
+    );
     recentSearchListElement.prepend(newRecentSearchItems);
   });
 }
@@ -445,7 +458,7 @@ function getRecentSearchItems() {
 function addRecentSearches(term) {
   const recentSearches = getRecentSearchItems();
   if (recentSearches.includes(term)) {
-    return
+    return;
   }
   recentSearches.push(term);
   while (recentSearches.length > recentSearchesSize) {
@@ -492,7 +505,7 @@ ratingButton.click(sortByRating);
 function searchFromHistory(e) {
   townInput = e.target.innerText;
   getGeocode();
-  $('main').addClass('fadeIn')
+  $("main").addClass("fadeIn");
 }
 
-recentSearchListElement.click(searchFromHistory)
+recentSearchListElement.click(searchFromHistory);
