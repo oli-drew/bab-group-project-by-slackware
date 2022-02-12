@@ -18,6 +18,8 @@ The users recent searches are saved to local storage and displayed on the webpag
 
 If a user enters an invalid input they are presented with a modal explaining their error.
 
+** Screenshot of Application **
+
 
 **Technology stack:**
 
