@@ -1,6 +1,11 @@
 # Birmingham Association Banquets
 
-![BAB Logo](assets/images/Plate-logo.png)
+<!-- ![BAB Logo](assets/images/Plate-logo.png) -->
+<!-- <img src="assets/images/Plate-logo.png" alt="BAB Logo" width="300"/> -->
+
+<p align="center">
+  <img src="assets/images/Plate-logo.png" alt="BAB Logo" width="300"/>
+</p>
 
 ## Description
 
@@ -18,15 +23,18 @@ The users recent searches are saved to local storage and displayed on the webpag
 
 If a user enters an invalid input they are presented with a modal explaining their error.
 
-
 **Technology stack:**
 
 - HTML, CSS, and JavaScript
 - jQuery
 - Bulma CSS Framework
 - Travel Advisor API
+- Openlayers 6 Library
 - Here Geocoding API
 - Deployed to GitHub Pages
+
+**You can register for a Travel Advisor API key here:**
+https://rapidapi.com/apidojo/api/travel-advisor
 
 ## Animated Screenshot
 
