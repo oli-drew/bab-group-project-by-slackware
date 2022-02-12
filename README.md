@@ -1,8 +1,5 @@
 # Birmingham Association Banquets
 
-<!-- ![BAB Logo](assets/images/Plate-logo.png) -->
-<!-- <img src="assets/images/Plate-logo.png" alt="BAB Logo" width="300"/> -->
-
 <p align="center">
   <img src="assets/images/Plate-logo.png" alt="BAB Logo" width="300"/>
 </p>
