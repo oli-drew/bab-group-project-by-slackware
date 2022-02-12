@@ -19,6 +19,9 @@ The users recent searches are saved to local storage and displayed on the webpag
 If a user enters an invalid input they are presented with a modal explaining their error.
 
 
+![oli-drew github io_bab-group-project-by-slackware_](https://user-images.githubusercontent.com/94486765/153712879-ec6aaa6e-9dde-46d2-a183-2c8d82e33a4d.png)
+
+
 **Technology stack:**
 
 - HTML, CSS, and JavaScript
